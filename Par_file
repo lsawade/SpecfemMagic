@@ -1,0 +1,137 @@
+# Simulation input parameters
+SIMULATION_TYPE                 = 1   # set to 1 for forward simulations, 2 for adjoint simulations for sources, and 3 for kernel simulations
+NOISE_TOMOGRAPHY                = 0   # flag of noise tomography, three steps (1,2,3). If earthquake simulation, set it to 0.
+SAVE_FORWARD                    = .false.   # save last frame of forward simulation or not
+
+# Geometry
+NCHUNKS                         = 6
+ANGULAR_WIDTH_XI_IN_DEGREES     = 20.d0   # angular size of a chunk
+ANGULAR_WIDTH_ETA_IN_DEGREES    = 20.d0
+CENTER_LATITUDE_IN_DEGREES      = 40.d0
+CENTER_LONGITUDE_IN_DEGREES     = 25.d0
+GAMMA_ROTATION_AZIMUTH          = 0.d0
+
+
+NEX_XI                          = 128
+NEX_ETA                         = 128
+NPROC_XI                        = 1
+NPROC_ETA                       = 1
+
+# Model
+# 1D_isotropic_prem, 1D_transversely_isotropic_prem, 1D_iasp91, 1D_1066a, 1D_ak135f_no_mud, 1D_ref, 1D_ref_iso, 1D_jp3d,1D_sea99
+# 1D_isotropic_prem_onecrust, 1D_transversely_isotropic_prem_onecrust, 1D_iasp91_onecrust, 1D_1066a_onecrust, 1D_ak135f_no_mud_onecrust
+# transversely_isotropic_prem_plus_3D_crust_2.0, 3D_anisotropic, 3D_attenuation,
+# s20rts, s40rts, s362ani, s362iso, s362wmani, s362ani_prem, s362ani_3DQ, s362iso_3DQ,
+# s29ea, sea99_jp3d1994, sea99, jp3d1994, heterogen, full_sh, sgloberani_aniso, sgloberani_iso
+# crust1.0, crust2.0, EPcrust, EuCRUST, crustmaps, crustSH
+# 1D_Sohl, 1D_Sohl_3D_crust, 1D_case65TAY, 1D_case65TAY_3D_crust
+# vpremoon
+MODEL                           = 1D_transversely_isotropic_prem
+
+# parameters describing the Earth model
+OCEANS                          = .true.
+ELLIPTICITY                     = .true.
+TOPOGRAPHY                      = .true.
+GRAVITY                         = .true.
+ROTATION                        = .true.
+ATTENUATION                     = .true.
+
+ABSORBING_CONDITIONS            = .false.
+
+RECORD_LENGTH_IN_MINUTES        = 10.0d0
+
+PARTIAL_PHYS_DISPERSION_ONLY    = .false.
+UNDO_ATTENUATION                = .false.
+MEMORY_INSTALLED_PER_CORE_IN_GB = 4.d0
+PERCENT_OF_MEM_TO_USE_PER_CORE  = 85.d0
+EXACT_MASS_MATRIX_FOR_ROTATION  = .false.
+
+USE_LDDRK                       = .false.
+
+INCREASE_CFL_FOR_LDDRK          = .true.
+RATIO_BY_WHICH_TO_INCREASE_IT   = 1.5d0
+
+# Visualization
+#MOVIE_COARSE saves movie only at corners of elements (SURFACE OR VOLUME)
+#MOVIE_COARSE does not work with create_movie_AVS_DX
+MOVIE_SURFACE                   = .false.
+MOVIE_VOLUME                    = .false.
+MOVIE_COARSE                    = .false.
+NTSTEP_BETWEEN_FRAMES           = 50
+HDUR_MOVIE                      = 0.d0
+MOVIE_VOLUME_TYPE               = 2
+MOVIE_TOP_KM                    = -100.0
+MOVIE_BOTTOM_KM                 = 1000.0
+MOVIE_WEST_DEG                  = -90.0
+MOVIE_EAST_DEG                  = 90.0
+MOVIE_NORTH_DEG                 = 90.0
+MOVIE_SOUTH_DEG                 = -90.0
+MOVIE_START                     = 0
+MOVIE_STOP                      = 40000
+
+SAVE_MESH_FILES                 = .false.
+
+NUMBER_OF_RUNS                  = 1
+NUMBER_OF_THIS_RUN              = 1
+
+LOCAL_PATH                      = ./DATABASES_MPI
+LOCAL_TMP_PATH                  = ./DATABASES_MPI
+
+NTSTEP_BETWEEN_OUTPUT_INFO      = 500
+
+# Sources & seismograms
+NTSTEP_BETWEEN_OUTPUT_SEISMOS   = 5000000
+NTSTEP_BETWEEN_READ_ADJSRC      = 1000
+USE_FORCE_POINT_SOURCE          = .false.
+
+SAVE_SEISMOGRAMS_STRAIN         = .false.
+
+SAVE_SEISMOGRAMS_IN_ADJOINT_RUN = .false.
+
+# output format for the seismograms (one can use either or all of the three formats)
+OUTPUT_SEISMOS_ASCII_TEXT       = .false.
+OUTPUT_SEISMOS_SAC_ALPHANUM     = .false.
+OUTPUT_SEISMOS_SAC_BINARY       = .true.
+OUTPUT_SEISMOS_ASDF             = .false.
+
+ROTATE_SEISMOGRAMS_RT           = .false.
+
+WRITE_SEISMOGRAMS_BY_MASTER     = .true.
+
+SAVE_ALL_SEISMOS_IN_ONE_FILE    = .false.
+USE_BINARY_FOR_LARGE_FILE       = .true.
+
+RECEIVERS_CAN_BE_BURIED         = .true.
+
+PRINT_SOURCE_TIME_FUNCTION      = .false.
+
+#  Adjoint kernel outputs
+
+READ_ADJSRC_ASDF                = .false.
+ANISOTROPIC_KL                  = .false.
+SAVE_TRANSVERSE_KL_ONLY         = .false.
+SAVE_AZIMUTHAL_ANISO_KL_ONLY    = .false.
+APPROXIMATE_HESS_KL             = .false.
+USE_FULL_TISO_MANTLE            = .false.
+SAVE_SOURCE_MASK                = .false.
+SAVE_REGULAR_KL                 = .false.
+
+NUMBER_OF_SIMULTANEOUS_RUNS     = 1
+BROADCAST_SAME_MESH_AND_MODEL   = .false.
+
+# set to true to use GPUs
+GPU_MODE                        = .true.
+GPU_RUNTIME                     = 1
+GPU_PLATFORM                    = NVIDIA
+GPU_DEVICE                      = Tesla
+
+# set to true to use the ADIOS library for I/Os
+ADIOS_ENABLED                   = .false.
+ADIOS_FOR_FORWARD_ARRAYS        = .true.
+ADIOS_FOR_MPI_ARRAYS            = .true.
+ADIOS_FOR_ARRAYS_SOLVER         = .true.
+ADIOS_FOR_SOLVER_MESHFILES      = .true.
+ADIOS_FOR_AVS_DX                = .true.
+ADIOS_FOR_KERNELS               = .true.
+ADIOS_FOR_MODELS                = .true.
+ADIOS_FOR_UNDO_ATTENUATION      = .true.
