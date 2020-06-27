@@ -9,7 +9,7 @@ mkdir $ADIOS_DESTDIR
 mkdir build
 cd build
 ../configure CC=$CC CXX=$CXX FC=$FC  CFLAGS="$CFLAGS" --prefix="$ADIOS_DESTDIR"
-make -j 8
+make -j
 make install
 cd $ROOT_DIR
 

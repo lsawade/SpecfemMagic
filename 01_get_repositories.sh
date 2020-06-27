@@ -12,8 +12,8 @@ PACKAGE_DIR="packages"
 # First get specfem3d_globe repository
 if [ ! -d $SPECFEM_DIR ]; then
         git clone https://github.com/geodynamics/specfem3d_globe.git
-        # cd specfem3d_globe
-        # git checkout -b devel origin/devel
+        cd specfem3d_globe
+        git checkout -b devel origin/devel
         cd ..
 fi
 
@@ -30,8 +30,8 @@ if [ ! -d $PACKAGE_DIR ]; then
 	tar -xzvf adios.tar.gz --strip-components=1 -C $ADIOS_DIR
 	
 	# Get HDF5
-	wget -O hdf5.tar $HDF5_LINK
-	tar -xvf hdf5.tar --strip-components=1 -C $HDF5_DIR 
+	wget -O hdf5.tar.gz $HDF5_LINK
+	tar -xzvf hdf5.tar.gz --strip-components=1 -C $HDF5_DIR 
 
         # Get ASDF
         git clone $ASDF_LINK

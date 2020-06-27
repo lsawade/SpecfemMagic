@@ -17,11 +17,10 @@ sed -i "s/.*${ini}.*/$new/g" setup/constants.h.in
 #new='  double precision,parameter :: COURANT_SUGGESTED = 0.35d0'
 #sed -i "s/.*${ini}.*/$new/g" setup/constants.h.in
 
-
 if [ "$ASDF_WITH" == "--with-asdf" ]
 then
-    MPIFC="${HDF5_BIN}/h5pfc"
-    MPICC="${HDF5_BIN}/h5pcc"
+    MPIFC="${HDF5_FC}"
+    MPICC="${HDF5_CC}"
     echo "ASDF enabled."
     echo "MPIFC:____$MPIFC"
     echo "MPICC:____$MPICC"

@@ -3,20 +3,18 @@
 # Get Settings
 source ./00_compilations_parameters.sh
 
-# Sets the following
-# HDF5_LINK="https ://hdf -wordpress -1.s3.amazonaws.com/\wp -content/uploads/manual/HDF5/HDF5_1_10_6 /\source/hdf5 -1.10.6. tar"
-# HDF5_INSTALL_DIR="/scratch/gpfs/lsawade/hdf5"
-# PREFIX="$HDF5_INSTALL_DIR/build"
-
+# HDF5 directory
 cd $HDF5_DIR
+
+# Get most recent config.guess/sub
+# wget -O ./bin/config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+# wget -O ./bin/config.sub 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+
 ls
 if [ -d build ]; then
 	rm -rf build
 fi
 mkdir build
-
-echo $HDF5_DESTDIR
-
 
 # Configuration
 ./configure --enable-shared --enable-parallel \
@@ -25,6 +23,6 @@ echo $HDF5_DESTDIR
 
 # Installation
 make -j
-make -j check
+# make -j check
 make -j install
 
