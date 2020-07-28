@@ -3,13 +3,13 @@
 #SBATCH --output=out.run
 # SBATCH --mail-type=ALL
 #SBATCH --mail-user=lsawade@princeton.edu
-# SBATCH --nodes=2
-#SBATCH --ntasks=6
+# SBATCH --nodes=1
+#SBATCH --ntasks=4
 #SBATCH --gpus-per-task=1
 #SBATCH --mem=160000
 # SBATCH --ntasks-per-node=3
-# SBATCH --gres=gpu:3
-#SBATCH --time=00:30:00
+# SBATCH --gres=gpu:4
+#SBATCH --time=00:10:00
 #SBATCH --reservation=test
 
 # Load everything necessary

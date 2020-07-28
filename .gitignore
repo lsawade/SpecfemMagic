@@ -1,3 +1,9 @@
 out.*
 packages
 specfem3d_globe
+*.pdf
+.mypy_cache
+.vscode
+*.sac
+.DS_Store
+._.DS_Store

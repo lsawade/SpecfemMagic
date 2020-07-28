@@ -11,7 +11,7 @@ PACKAGE_DIR="packages"
 
 # First get specfem3d_globe repository
 if [ ! -d $SPECFEM_DIR ]; then
-        git clone https://github.com/geodynamics/specfem3d_globe.git
+        git clone https://github.com/lsawade/specfem3d_globe.git
         cd specfem3d_globe
         git checkout -b devel origin/devel
         cd ..

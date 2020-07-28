@@ -12,8 +12,8 @@ CENTER_LONGITUDE_IN_DEGREES     = 25.d0
 GAMMA_ROTATION_AZIMUTH          = 0.d0
 
 
-NEX_XI                          = 128
-NEX_ETA                         = 128
+NEX_XI                          = 64
+NEX_ETA                         = 64
 NPROC_XI                        = 1
 NPROC_ETA                       = 1
 
