@@ -4,7 +4,7 @@
 #     LOAD MODULES      #
 #########################
 module purge
-module load openmpi/gcc cudatoolkit/9.2 cmake
+module load openmpi/gcc cudatoolkit/11.0
 # module load pgi/19.9/64
 # module load openmpi/pgi-19.9/4.0.3rc1/64
 
@@ -12,10 +12,11 @@ module load openmpi/gcc cudatoolkit/9.2 cmake
 #   DIRECOTRIES INFOS   #
 #########################
 ROOT_DIR=$(pwd)
+PACKAGES="${ROOT_DIR}/packages"
 PATH_CUDA=$(which nvcc)
-ASDF_DIR="${ROOT_DIR}/packages/asdf-library"
-ADIOS_DIR="${ROOT_DIR}/packages/adios"
-HDF5_DIR="${ROOT_DIR}/packages/hdf5"
+ASDF_DIR="${PACKAGES}/asdf-library"
+ADIOS_DIR="${PACKAGES}/adios"
+HDF5_DIR="${PACKAGES}/hdf5"
 
 #########################
 # Compilation variables #
@@ -33,8 +34,12 @@ MPIFC=mpif90
 CFLAGS=""
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
-CUDA_WITH="--with-cuda=cuda9"
+CUDA_WITH="--with-cuda=cuda10"
 CUDA_LIB=""
+
+# SPECFEM
+SPECFEM_DIR="${ROOT_DIR}/specfem3d_globe"
+SPECFEM_LINK="https://github.com/geodynamics/specfem3d_globe.git"
 
 # HDF5
 HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz"
@@ -55,3 +60,4 @@ ADIOS_DESTDIR="${ADIOS_DIR}/build"
 ADIOS_WITH="--with-adios"
 ADIOS_CONFIG="$ADIOS_DESTDIR/bin/adios_config"
 #ADIOS_CONFIG=$(which adios2-config)
+

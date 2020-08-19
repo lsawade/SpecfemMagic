@@ -4,7 +4,7 @@ NOISE_TOMOGRAPHY                = 0   # flag of noise tomography, three steps (1
 SAVE_FORWARD                    = .false.   # save last frame of forward simulation or not
 
 # Geometry
-NCHUNKS                         = 6
+NCHUNKS                         = 1
 ANGULAR_WIDTH_XI_IN_DEGREES     = 20.d0   # angular size of a chunk
 ANGULAR_WIDTH_ETA_IN_DEGREES    = 20.d0
 CENTER_LATITUDE_IN_DEGREES      = 40.d0
@@ -92,11 +92,11 @@ SAVE_SEISMOGRAMS_IN_ADJOINT_RUN = .false.
 OUTPUT_SEISMOS_ASCII_TEXT       = .false.
 OUTPUT_SEISMOS_SAC_ALPHANUM     = .false.
 OUTPUT_SEISMOS_SAC_BINARY       = .true.
-OUTPUT_SEISMOS_ASDF             = .false.
+OUTPUT_SEISMOS_ASDF             = .true.
 
 ROTATE_SEISMOGRAMS_RT           = .false.
 
-WRITE_SEISMOGRAMS_BY_MASTER     = .true.
+WRITE_SEISMOGRAMS_BY_MAIN       = .true.
 
 SAVE_ALL_SEISMOS_IN_ONE_FILE    = .false.
 USE_BINARY_FOR_LARGE_FILE       = .true.
@@ -126,7 +126,7 @@ GPU_PLATFORM                    = NVIDIA
 GPU_DEVICE                      = Tesla
 
 # set to true to use the ADIOS library for I/Os
-ADIOS_ENABLED                   = .false.
+ADIOS_ENABLED                   = .true.
 ADIOS_FOR_FORWARD_ARRAYS        = .true.
 ADIOS_FOR_MPI_ARRAYS            = .true.
 ADIOS_FOR_ARRAYS_SOLVER         = .true.
