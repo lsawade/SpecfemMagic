@@ -5,6 +5,7 @@ source 00_compilations_parameters.sh
 
 # Specfem repository
 cd specfem3d_globe
+
 make clean
 make realclean
 
@@ -19,6 +20,8 @@ sed -i "s/.*${ini}.*/$new/g" setup/constants.h.in
 
 if [ "$ASDF_WITH" == "--with-asdf" ]
 then
+    FC="${HDF5_FC}"
+    CC="${HDF5_CC}"
     MPIFC="${HDF5_FC}"
     MPICC="${HDF5_CC}"
     echo "ASDF enabled."
@@ -38,6 +41,12 @@ $ASDF_WITH ASDF_LIBS="$ASDF_LIBS" \
 $ADIOS_WITH ADIOS_CONFIG="$ADIOS_CONFIG"
 
 # Compilation
-make meshfem3D -j
+mpif90 -v
+
+ini='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions'
+new='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions -fbacktrace'
+sed -i "s/.*${ini}.*/$new/g" Makefile
+
+make -j meshfem3D
 cd ..
 

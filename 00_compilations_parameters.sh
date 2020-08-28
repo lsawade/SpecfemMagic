@@ -3,9 +3,8 @@
 #########################
 #     LOAD MODULES      #
 #########################
-module purge
-module load openmpi/gcc cudatoolkit/11.0
-# module load pgi/19.9/64
+
+# module load pgi/17.9/64
 # module load openmpi/pgi-19.9/4.0.3rc1/64
 
 #########################
@@ -25,7 +24,7 @@ HDF5_DIR="${PACKAGES}/hdf5"
 # C/C++ compiler
 CC=gcc
 CXX=g++
-MPICC=mpicc
+MPICC=$(which mpicc)
 FCFLAGS=""
 
 # Fortran compiler
@@ -34,8 +33,8 @@ MPIFC=mpif90
 CFLAGS=""
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
-CUDA_WITH="--with-cuda=cuda10"
-CUDA_LIB=""
+CUDA_WITH="--with-cuda=cuda9"
+CUDA_LIB="/sw/summit/cuda/11.0.3/lib64"
 
 # SPECFEM
 SPECFEM_DIR="${ROOT_DIR}/specfem3d_globe"
@@ -59,5 +58,4 @@ ADIOS_LINK="https://users.nccs.gov/~pnorbert/adios-1.13.1.tar.gz"
 ADIOS_DESTDIR="${ADIOS_DIR}/build"
 ADIOS_WITH="--with-adios"
 ADIOS_CONFIG="$ADIOS_DESTDIR/bin/adios_config"
-#ADIOS_CONFIG=$(which adios2-config)
-
+# ADIOS_CONFIG=$(which adios2-config)

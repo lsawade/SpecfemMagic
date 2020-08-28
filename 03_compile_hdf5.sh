@@ -10,11 +10,12 @@ cd $HDF5_DIR
 # wget -O ./bin/config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 # wget -O ./bin/config.sub 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
 
-ls
 if [ -d build ]; then
 	rm -rf build
 fi
 mkdir build
+
+echo $HDF5_DESTDIR
 
 # Configuration
 ./configure --enable-shared --enable-parallel \
