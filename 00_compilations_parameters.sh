@@ -6,10 +6,19 @@
 
 # module load pgi/17.9/64
 # module load openmpi/pgi-19.9/4.0.3rc1/64
-module purge
-module load gcc
-module load spectrum-mpi
-module load cuda
+if [[ $HOSTNAME == *"rhea"* ]]; then
+    module purge
+    module load gcc/4.8.5 openmpi/3.1.4
+elif [[ $HOSTNAME == *"login"* ]]; then
+    module purge
+    module load gcc spectrum-mpi cuda
+elif [[ $HOSTNAME == "traverse.princeton.edu" ]]; then
+    module purge
+    module load openmpi/gcc cudatoolkit
+else
+    echo "HOST: ${HOSTNAME} not recognized."
+fi
+
 
 #########################
 #   DIRECOTRIES INFOS   #
