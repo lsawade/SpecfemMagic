@@ -7,3 +7,5 @@ specfem3d_globe
 *.sac
 .DS_Store
 ._.DS_Store
+*.e
+*.o

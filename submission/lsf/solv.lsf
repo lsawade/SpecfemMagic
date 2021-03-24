@@ -1,16 +1,16 @@
 #!/bin/bash
 #BSUB -P GEO111
-#BSUB -W 0:10
+#BSUB -W 0:20
 #BSUB -nnodes 1
 #BSUB -J solver
 #BSUB -o output.solver.o
 #BSUB -e output.solver.e
-# BSUB -alloc_flags smt4
+#BSUB -alloc_flags "gpumps"
 
 
 # load things
 module purge
-module load gcc/6.4.0 spectrum-mpi cuda/11.0.3
+module load gcc spectrum-mpi cuda
 
 module list
 
@@ -20,6 +20,6 @@ cd ../../specfem3d_globe
 ulimit -s unlimited
 
 # run xmeshfem3D
-jsrun -n 1 -a 4 -c 4 -g 4 ./bin/xspecfem3D
+jsrun -n 6 -a 4 -c 4 -g 1 ./bin/xspecfem3D
 
 #jsrun -n 384 -a 1 -c 1 ./bin/xmeshfem3D

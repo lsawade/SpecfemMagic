@@ -1,11 +1,11 @@
 #!/bin/bash
 #BSUB -P GEO111
-#BSUB -W 0:10
+#BSUB -W 0:40
 #BSUB -nnodes 1
 #BSUB -J mesher
 #BSUB -o output.mesher.o
 #BSUB -e output.mesher.e
-#BSUB -alloc_flags gpumps
+# BSUB -alloc_flags "gpumps smt4"
 
 
 # load things
@@ -18,6 +18,6 @@ cd ../../specfem3d_globe
 # just in case
 ulimit -s unlimited
 # run xmeshfem3D
-jsrun -n 4 -a 1 -c 1 ./bin/xmeshfem3D
+jsrun -n 6 -a 4 -c 4 ./bin/xmeshfem3D
 
 #jsrun -n 384 -a 1 -c 1 ./bin/xmeshfem3D
