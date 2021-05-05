@@ -24,7 +24,7 @@ if [ ! -d $ADIOS_DIR ]; then
     mkdir adios
 
     # Get ADIOS
-    wget -O adios.tar.gz $ADIOS_LINK 
+    wget --no-check-certificate -O adios.tar.gz $ADIOS_LINK
     tar -xzvf adios.tar.gz --strip-components=1 -C $ADIOS_DIR
 
     cd $ROOT_DIR

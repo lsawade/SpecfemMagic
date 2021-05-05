@@ -15,6 +15,9 @@ elif [[ $HOSTNAME == *"login"* ]]; then
 elif [[ $HOSTNAME == "traverse.princeton.edu" ]]; then
     module purge
     module load openmpi/gcc cudatoolkit
+elif [[ $HOSTNAME == "tigergpu.princeton.edu" ]]; then
+    module purge
+    module load openmpi/gcc cudatoolkit
 else
     echo "HOST: ${HOSTNAME} not recognized."
 fi
@@ -63,12 +66,12 @@ MPIFC_HDF5=$HDF5_FC
 # ASDF
 ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
 ASDF_DESTDIR="${ASDF_DIR}/build"
-ASDF_WITH="" # "--with-asdf"
-ASDF_LIBS="" # -L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
+ASDF_WITH="--with-asdf"
+ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
 ADIOS_LINK="https://users.nccs.gov/~pnorbert/adios-1.13.1.tar.gz"
 ADIOS_DESTDIR="${ADIOS_DIR}/build"
-ADIOS_WITH="" #--with-adios"
+ADIOS_WITH="--with-adios"
 ADIOS_CONFIG="$ADIOS_DESTDIR/bin/adios_config"
 # ADIOS_CONFIG=$(which adios2-config)
