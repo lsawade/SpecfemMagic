@@ -7,11 +7,7 @@ source 00_compilations_parameters.sh
 if [ ! -d $SPECFEM_DIR ]; then
     git clone $SPECFEM_LINK
     cd specfem3d_globe
-<<<<<<< HEAD
-    git checkout -b devel origin/devel-lucas
-=======
     git checkout -b devel-lucas origin/devel-lucas
->>>>>>> fixbranch
     cd $CURRENT_DIR
 fi
 
