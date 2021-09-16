@@ -1,18 +1,18 @@
 #!/bin/bash
 #BSUB -P GEO111
-#BSUB -W 0:40
+#BSUB -W 1:30
 #BSUB -nnodes 1
 #BSUB -J mesher
 #BSUB -o output.mesher.o
 #BSUB -e output.mesher.e
-# BSUB -alloc_flags "gpumps smt4"
+#-# BSUB -alloc_flags "gpumps smt4"
 
 
 # load things
 module purge
-### module load hsi/5.0.2.p5 xalt/1.2.0 lsf-tools/2.0 DefApps emacs/25.1 gcc/4.8.5 spectrum-mpi/10.3.1.2-20200121 darshan-runtime/3.1.7 cuda/11.0.3 cmake/3.18.2 boost/1.66.0
+module list
 module load gcc spectrum-mpi
-
+module  list
 cd ../../specfem3d_globe
 
 # just in case

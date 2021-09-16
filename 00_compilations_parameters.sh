@@ -9,9 +9,9 @@
 if [[ $HOSTNAME == *"rhea"* ]]; then
     module purge
     module load gcc/4.8.5 openmpi/3.1.4
-elif [[ $HOSTNAME == *"login"* ]]; then
+elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     module purge
-    module load gcc spectrum-mpi cuda
+    module load gcc spectrum-mpi cuda cmake boost
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit
@@ -68,7 +68,7 @@ MPIFC_HDF5=$HDF5_FC
 # ASDF
 ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
 ASDF_DESTDIR="${ASDF_DIR}/build"
-ASDF_WITH="--with-asdf"
+ASDF_WITH="" #--with-asdf"
 ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
