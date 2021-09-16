@@ -4,9 +4,9 @@
 # SBATCH --mail-type=ALL
 # SBATCH --mail-user=lsawade@princeton.edu
 # SBATCH --nodes=
-#SBATCH --ntasks=24
+#SBATCH --ntasks=6
 #SBATCH --gpus=6
-#SBATCH --gpu-mps
+# SBATCH --gpu-mps
 # SBATCH --gpus-per-task=0.25
 #SBATCH --mem=160000
 # SBATCH --ntasks-per-node=3
