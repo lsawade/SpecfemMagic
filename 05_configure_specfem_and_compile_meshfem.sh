@@ -10,9 +10,9 @@ make clean
 make realclean
 
 # Change ADIOS BUFFER SIZE in constant.h.in
-ini='  integer, parameter :: ADIOS_BUFFER_SIZE_IN_MB'
-new='  integer, parameter :: ADIOS_BUFFER_SIZE_IN_MB = 15000'
-sed -i "s/.*${ini}.*/$new/g" setup/constants.h.in
+# ini='  integer, parameter :: ADIOS_BUFFER_SIZE_IN_MB'
+# new='  integer, parameter :: ADIOS_BUFFER_SIZE_IN_MB = 15000'
+# sed -i "s/.*${ini}.*/$new/g" setup/constants.h.in
 
 #ini='  double precision,parameter :: COURANT_SUGGESTED = 0.55d0'
 #new='  double precision,parameter :: COURANT_SUGGESTED = 0.35d0'
@@ -43,9 +43,9 @@ $ADIOS_WITH ADIOS_CONFIG="$ADIOS_CONFIG"
 # Compilation
 mpif90 -v
 
-ini='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions'
-new='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions -fbacktrace'
-sed -i "s/.*${ini}.*/$new/g" Makefile
+# ini='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions'
+# new='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions -fbacktrace'
+# sed -i "s/.*${ini}.*/$new/g" Makefile
 
 make -j meshfem3D
 cd ..
