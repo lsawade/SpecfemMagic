@@ -14,7 +14,7 @@ elif [[ $HOSTNAME == *"login"* ]]; then
     module load gcc spectrum-mpi cuda
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     module purge
-    module load openmpi/gcc cudatoolkit
+    module load openmpi/gcc cudatoolkit/11.6
 elif [[ $HOSTNAME == "tigergpu.princeton.edu" ]]; then
     module purge
     module load openmpi/gcc cudatoolkit
