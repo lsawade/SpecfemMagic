@@ -1,7 +1,7 @@
-[submodule "specfem3d_globe"]
-	path = specfem3d_globe
-	url = git@github.com:globalseismology/specfem3d_globe.git
-	branch = avni
 [submodule "packages/asdf-library"]
 	path = packages/asdf-library
 	url = git@github.com:SeismicData/asdf-library.git
+[submodule "packages/specfem3d_globe"]
+	path = packages/specfem3d_globe
+	url = git@github.com:globalseismology/specfem3d_globe.git
+	branch = avni
