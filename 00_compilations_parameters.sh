@@ -54,10 +54,6 @@ FCFLAGS=""
 CUDA_WITH="--with-cuda=cuda9"
 CUDA_LIB="${PATH_CUDA/bin\/nvcc/lib64}"
 
-# SPECFEM
-SPECFEM_DIR="${ROOT_DIR}/specfem3d_globe"
-SPECFEM_LINK="git@github.com:geodynamics/specfem3d_globe.git"
-
 # HDF5
 HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz"
 HDF5_DESTDIR="${HDF5_DIR}/build"
@@ -66,7 +62,6 @@ HDF5_CC="${HDF5_DESTDIR}/bin/h5pcc"
 MPIFC_HDF5=$HDF5_FC
 
 # ASDF
-ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
 ASDF_DESTDIR="${ASDF_DIR}/build"
 ASDF_WITH="" #--with-asdf"
 ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
