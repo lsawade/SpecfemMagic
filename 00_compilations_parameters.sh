@@ -63,7 +63,7 @@ MPIFC_HDF5=$HDF5_FC
 
 # ASDF
 ASDF_DESTDIR="${ASDF_DIR}/build"
-ASDF_WITH="" #--with-asdf"
+ASDF_WITH="--with-asdf"
 ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
@@ -71,4 +71,3 @@ ADIOS_LINK="https://users.nccs.gov/~pnorbert/adios-1.13.1.tar.gz"
 ADIOS_DESTDIR="${ADIOS_DIR}/build"
 ADIOS_WITH="--with-adios"
 ADIOS_CONFIG="$ADIOS_DESTDIR/bin/adios_config"
-# ADIOS_CONFIG=$(which adios2-config)
