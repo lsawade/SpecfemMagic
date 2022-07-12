@@ -11,7 +11,6 @@
 #SBATCH --time=00:10:00
 # # SBATCH --reservation=test
 
-
 # Load everything necessary
 source ../../00_compilations_parameters.sh
 

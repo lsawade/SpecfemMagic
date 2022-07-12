@@ -9,3 +9,4 @@ specfem3d_globe
 ._.DS_Store
 *.e
 *.o
+core.*

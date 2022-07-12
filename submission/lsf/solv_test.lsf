@@ -1,0 +1,29 @@
+#!/bin/bash
+#BSUB -P GEO111
+#BSUB -W 0:20
+#BSUB -nnodes 10
+#BSUB -J solver
+#BSUB -o output.solver.o
+#BSUB -e output.solver.e
+# BSUB -alloc_flags "gpumps"
+
+
+# load things
+module purge
+module load gcc spectrum-mpi cuda
+
+module list
+
+# just in case
+ulimit -s unlimited
+
+# run xmeshfem3D
+cd ../../specfem3d_globe0
+jsrun -n 1 -a 1 -c 42 /gpfs/alpine/geo111/scratch/lsawade/SpecfemMagic/submission/lsf/solv_test.sh &
+
+cd ../specfem3d_globe1
+jsrun -n 1 -a 1 -c 42 /gpfs/alpine/geo111/scratch/lsawade/SpecfemMagic/submission/lsf/solv_test.sh
+
+wait
+
+#jsrun -n 384 -a 1 -c 1 ./bin/xmeshfem3D

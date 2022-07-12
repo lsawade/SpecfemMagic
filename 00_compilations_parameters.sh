@@ -9,9 +9,9 @@
 if [[ $HOSTNAME == *"rhea"* ]]; then
     module purge
     module load gcc/4.8.5 openmpi/3.1.4
-elif [[ $HOSTNAME == *"login"* ]]; then
+elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     module purge
-    module load gcc spectrum-mpi cuda
+    module load gcc spectrum-mpi cuda cmake boost
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit
@@ -41,12 +41,14 @@ HDF5_DIR="${PACKAGES}/hdf5"
 CC=gcc
 CXX=g++
 MPICC=$(which mpicc)
-FCFLAGS=""
 
 # Fortran compiler
 FC=gfortran
 MPIFC=mpif90
-CFLAGS=""
+
+# Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
+CFLAGS="-std=c++11"
+FCFLAGS=""
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
 CUDA_WITH="--with-cuda=cuda8"
@@ -54,7 +56,7 @@ CUDA_LIB="${PATH_CUDA/bin\/nvcc/lib64}"
 
 # SPECFEM
 SPECFEM_DIR="${ROOT_DIR}/specfem3d_globe"
-SPECFEM_LINK="git@github.com:lsawade/specfem3d_globe.git"
+SPECFEM_LINK="git@github.com:geodynamics/specfem3d_globe.git"
 
 # HDF5
 HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz"
@@ -66,7 +68,7 @@ MPIFC_HDF5=$HDF5_FC
 # ASDF
 ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
 ASDF_DESTDIR="${ASDF_DIR}/build"
-ASDF_WITH="--with-asdf"
+ASDF_WITH="" #--with-asdf"
 ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
