@@ -15,7 +15,7 @@ elif [[ $HOSTNAME == *"login"* ]]; then
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit
-elif [[ $HOSTNAME == "tigergpu.princeton.edu" ]]; then
+elif [[ $HOSTNAME == *"tiger"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit
 else
@@ -49,7 +49,7 @@ MPIFC=mpif90
 CFLAGS=""
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
-CUDA_WITH="--with-cuda=cuda9"
+CUDA_WITH="--with-cuda=cuda8"
 CUDA_LIB="${PATH_CUDA/bin\/nvcc/lib64}"
 
 # SPECFEM
