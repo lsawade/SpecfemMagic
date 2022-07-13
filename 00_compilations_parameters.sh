@@ -11,7 +11,7 @@ if [[ $HOSTNAME == *"rhea"* ]]; then
     module load gcc/4.8.5 openmpi/3.1.4
 elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     module purge
-    module load gcc spectrum-mpi cuda cmake boost
+    module load xl spectrum-mpi cuda cmake boost
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit
@@ -38,12 +38,12 @@ HDF5_DIR="${PACKAGES}/hdf5"
 #########################
 
 # C/C++ compiler
-CC=gcc
-CXX=g++
+CC=xlc
+CXX=xlc++
 MPICC=$(which mpicc)
 
 # Fortran compiler
-FC=gfortran
+FC=xlf
 MPIFC=mpif90
 
 # Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
