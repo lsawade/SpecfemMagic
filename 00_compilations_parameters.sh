@@ -38,16 +38,16 @@ HDF5_DIR="${PACKAGES}/hdf5"
 #########################
 
 # C/C++ compiler
-CC=xlc
-CXX=xlc++
+CC=gcc
+CXX=g++
 MPICC=$(which mpicc)
 
 # Fortran compiler
-FC=xlf
+FC=gfortran
 MPIFC=mpif90
 
 # Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
-CFLAGS="-std=c++11"
+CFLAGS=""
 FCFLAGS=""
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
@@ -76,9 +76,17 @@ ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 # ADIOS
 ADIOS_VERSION="2"
 ADIOS_LINK="https://github.com/ornladios/ADIOS2.git"
-ADIOS_DESTDIR="${PACKAGES}/adios-build"
-ADIOS_WITH="--with-adios"
-ADIOS_CONFIG="$ADIOS_DESTDIR/bin/adios_config"
-export PATH=$PATH:${ADIOS_DESTDIR}/bin
+ADIOS_BUILD="${PACKAGES}/adios-build"
+ADIOS_INSTALL="${PACKAGES}/adios-install"
 
-# ADIOS_CONFIG=$(which adios2-config)
+# ADIOS version specific things
+if [ $ADIOS_VERSION == "2" ]
+then
+    ADIOS_WITH="--with-adios2"
+    ADIOS_CONFIG="${ADIOS_INSTALL}/bin/adios2_config"
+else
+    ADIOS_WITH="--with-adios"
+    ADIOS_CONFIG="${ADIOS_INSTALL}/bin/adios_config"
+fi
+export PATH=$PATH:${ADIOS_INSTALL}/bin
+

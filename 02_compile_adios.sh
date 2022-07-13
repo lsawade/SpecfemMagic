@@ -11,19 +11,23 @@ cd $ADIOS_DIR
 if [ $ADIOS_VERSION == "2" ]
 then
     cd $ADIOS_DIR
-    mkdir $ADIOS_DESTDIR 
-    cd $ADIOS_DESTDIR 
-    cmake -DCMAKE_INSTALL_PREFIX=${ADIOS_DESTDIR}  \
+    mkdir $ADIOS_BUILD 
+    cd $ADIOS_BUILD 
+    CC="$(which mpicc)" CXX="$(which mpicxx)" MPICC="$(which mpicc)" \
+    cmake -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL}  \
+          -DADIOS2_USE_MPI=ON \
+          -DADIOS2_USE_FORTRAN=ON \
+          -DADIOS2_USE_HDF5=OFF \
           ../adios
     make -j 16
     make install
 else
     # Compile Adios1
     cd $ADIOS_DIR
-    mkdir $ADIOS_DESTDIR
+    mkdir $ADIOS_BUILD
     mkdir build
     cd build
-    ../configure CC=$CC CXX=$CXX FC=$FC  CFLAGS="$CFLAGS" --prefix="$ADIOS_DESTDIR"
+    ../configure CC=$CC CXX=$CXX FC=$FC  CFLAGS="$CFLAGS" --prefix="$ADIOS_INSTALL"
     make -j
     make install
 fi
