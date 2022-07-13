@@ -47,7 +47,7 @@ FC=xlf
 MPIFC=mpif90
 
 # Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
-CFLAGS=""
+CFLAGS="-std=c++11"
 FCFLAGS=""
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
