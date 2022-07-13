@@ -47,7 +47,7 @@ FC=gfortran
 MPIFC=mpif90
 
 # Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
-CFLAGS="-std=c++11"
+CFLAGS=""
 FCFLAGS=""
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
@@ -74,8 +74,9 @@ ASDF_WITH="" #--with-asdf"
 ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
-ADIOS_LINK="https://users.nccs.gov/~pnorbert/adios-1.13.1.tar.gz"
-ADIOS_DESTDIR="${ADIOS_DIR}/build"
+ADIOS_VERSION="2"
+ADIOS_LINK="https://github.com/ornladios/ADIOS2.git"
+ADIOS_DESTDIR="${PACKAGES}/adios-build"
 ADIOS_WITH="--with-adios"
 ADIOS_CONFIG="$ADIOS_DESTDIR/bin/adios_config"
 export PATH=$PATH:${ADIOS_DESTDIR}/bin
