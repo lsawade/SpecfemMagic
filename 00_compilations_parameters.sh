@@ -65,6 +65,7 @@ HDF5_DESTDIR="${HDF5_DIR}/build"
 HDF5_FC="${HDF5_DESTDIR}/bin/h5pfc"
 HDF5_CC="${HDF5_DESTDIR}/bin/h5pcc"
 MPIFC_HDF5=$HDF5_FC
+export PATH=$PATH:${HDF5_DESTDIR}/bin
 
 # ASDF
 ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
@@ -77,4 +78,6 @@ ADIOS_LINK="https://users.nccs.gov/~pnorbert/adios-1.13.1.tar.gz"
 ADIOS_DESTDIR="${ADIOS_DIR}/build"
 ADIOS_WITH="--with-adios"
 ADIOS_CONFIG="$ADIOS_DESTDIR/bin/adios_config"
+export PATH=$PATH:${ADIOS_DESTDIR}/bin
+
 # ADIOS_CONFIG=$(which adios2-config)
