@@ -43,9 +43,9 @@ $ADIOS_WITH ADIOS_CONFIG="$ADIOS_CONFIG"
 # Compilation
 mpif90 -v
 
-# ini='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions'
-# new='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions -fbacktrace'
-# sed -i "s/.*${ini}.*/$new/g" Makefile
+ini='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions'
+new='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions -fbacktrace -O0 -Wall -fcheck=all'
+sed -i "s/.*${ini}.*/$new/g" Makefile
 
 make -j meshfem3D
 cd ..

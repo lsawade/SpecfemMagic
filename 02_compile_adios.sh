@@ -4,7 +4,6 @@
 source 00_compilations_parameters.sh
 
 
-
 cd $ADIOS_DIR
 
 # ADIOS2

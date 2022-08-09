@@ -47,8 +47,17 @@ FC=gfortran
 MPIFC=mpif90
 
 # Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
+# gfortran     ifort         effect
+# ------------------------------------------------------
+# -g           -g            Stores the code inside the binary
+# -O0          -O0           Disables optimisation
+# -fbacktrace  -traceback    More informative stack trace
+# -Wall        -warn all     Enable all compile time warnings
+# -fcheck=all  -check all    Enable run time checks
+
+
 CFLAGS=""
-FCFLAGS=""
+FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
 CUDA_WITH="--with-cuda=cuda8"
