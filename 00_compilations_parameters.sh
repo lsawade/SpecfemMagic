@@ -34,6 +34,12 @@ ADIOS_DIR="${PACKAGES}/adios"
 HDF5_DIR="${PACKAGES}/hdf5"
 
 #########################
+# Green Function stuff  #
+#########################
+
+FORWARD_TEST=True
+
+#########################
 # Compilation variables #
 #########################
 
