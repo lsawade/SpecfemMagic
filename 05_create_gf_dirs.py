@@ -27,7 +27,7 @@ inputdict = dict(
 
     # Forward parameters
     forward_test = True,
-    cmtsolutionfile = CMTSOLUTION,
+    cmtsolutionfile = 'CMTSOLUTION',
 
     # Simultaneous writing
     broadcast_mesh_model = False,
@@ -36,8 +36,9 @@ inputdict = dict(
 
 ###################################
 #  SIMULATION DIRECTORY CREATION  #
-###################################
+###################################Setup
 
 
 S = Simulation(**inputdict)
+print(S)
 S.create()
