@@ -19,13 +19,12 @@ inputdict = dict(
     target_longitude=26.8500,
     target_depth=24.0000,
 
-    # STF parameters
+    #
     t0=0.0,
-    tc=30.0,
+    tc=60.0,
     duration_in_min=20.0,
     nstep=None,
-    ndt=None,
-
+    ndt=7.0,
 
     # Forward parameters
     forward_test=True,
@@ -34,14 +33,13 @@ inputdict = dict(
     # Simultaneous writing
     broadcast_mesh_model=False,
     simultaneous_runs=False
-
 )
 
 ###################################
-#  SIMULATION DIRECTORY CREATION  #
+# SIMULATION DIRECTORY CREATION  #
 # Setup
 
 
 S = Simulation(**inputdict)
+S.update_forces_and_stations()
 print(S)
-S.create()

@@ -14,7 +14,9 @@ elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     module load xl spectrum-mpi cuda cmake boost
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     module purge
+    module load anaconda3
     module load openmpi/gcc cudatoolkit
+    conda activate gf
 elif [[ $HOSTNAME == *"tiger"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit/10.2
@@ -37,7 +39,8 @@ HDF5_DIR="${PACKAGES}/hdf5"
 # Green Function stuff  #
 #########################
 
-FORWARD_TEST=True
+export RECIPROCAL=True
+export FORWARD_TEST=True
 
 #########################
 # Compilation variables #
