@@ -1,39 +1,21 @@
 #!/bin/env python
 
 from lwsspy.GF.simulation import Simulation
+import toml
 
-inputdict = dict(
-    # Specfem directory
-    specfemdir="specfem3d_globe",
-    par_file='Par_file',
+# hi i read t0ml
 
-    # Station
-    network="II",
-    station="BFO",
-    station_latitude=48.3319,
-    station_longitude=8.3311,
-    station_burial=0.0,
 
-    # GF locations
-    target_latitude=35.0300,
-    target_longitude=26.8500,
-    target_depth=24.0000,
+def read_toml(file) -> dict:
+    return toml.load(file)
 
-    #
-    t0=0.0,
-    tc=60.0,
-    duration_in_min=20.0,
-    nstep=None,
-    ndt=7.0,
 
-    # Forward parameters
-    forward_test=True,
-    cmtsolutionfile='CMTSOLUTION',
+# Read config file
+inputdict = read_toml('reci.toml')
 
-    # Simultaneous writing
-    broadcast_mesh_model=False,
-    simultaneous_runs=False
-)
+# Add extra steps
+inputdict['nstep'] = None
+inputdict['ndt'] = 7.0
 
 ###################################
 # SIMULATION DIRECTORY CREATION  #

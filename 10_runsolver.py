@@ -12,7 +12,7 @@ if os.environ['RECIPROCAL'] == 'True':
     print("Running the solver reciprocal...")
     os.chdir(specfemdir)
     print(os.getcwd())
-    
+
     if simultaneous_run():
         sfrun(rtype='s')
         os.chdir(cwd)

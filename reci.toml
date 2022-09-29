@@ -1,0 +1,30 @@
+# Specfem directory
+specfemdir="specfem3d_globe"
+par_file='Par_file'
+
+# Station
+network="II"
+station="BFO"
+station_latitude=48.3319
+station_longitude=8.3311
+station_burial=0.0
+
+# GF locations
+target_file='GF_LOCATIONS'
+target_latitude=35.0300   #
+target_longitude=26.8500  #  Not used if target_file is set.
+target_depth=24.0000      #
+
+# STF parameters
+t0=0.0
+tc=60.0
+duration_in_min=20.0
+subsample=true
+
+# Forward parameters
+forward_test=true
+cmtsolutionfile='CMTSOLUTION'
+
+# Simultaneous writing
+broadcast_mesh_model=false
+simultaneous_runs=false

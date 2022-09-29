@@ -22,6 +22,11 @@ fi
 
 if [ "${FORWARD_TEST}" == "True" ]
 then
+    echo "Syncing the source code"
+    echo "------------------------------------------------------"
+    rsync -av specfem3d_globe/src/ specfem3d_globe_forward/src
+    echo "------------------------------------------------------"
+
     cd specfem3d_globe_forward
     # make clean
     make all -j
