@@ -10,8 +10,7 @@ echo "LIB PATH:\n$LIBRARY_PATH"
 # Compile specfem
 cd specfem3d_globe
 #make specfem3D -j 40
-#make clean
+# make clean
 #make realclean
 make all -j
 cd ..
-

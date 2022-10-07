@@ -7,7 +7,7 @@ source 00_compilations_parameters.sh
 if [ ! -d $SPECFEM_DIR ]; then
     git clone $SPECFEM_LINK
     cd specfem3d_globe
-    git checkout -b devel origin/devel
+    git checkout -b $SPECFEM_BRANCH origin/$SPECFEM_BRANCH
     cd $CURRENT_DIR
 fi
 
@@ -20,20 +20,26 @@ fi
 # Download ADIOS if it doesnt exist
 if [ ! -d $ADIOS_DIR ]; then
 
-    cd $PACKAGES
-    mkdir adios
+    if [ $ADIOS_VERSION == "1" ]
+    then
+        cd $PACKAGES
+        mkdir adios
 
-    # Get ADIOS
-    wget --no-check-certificate -O adios.tar.gz $ADIOS_LINK
-    tar -xzvf adios.tar.gz --strip-components=1 -C $ADIOS_DIR
+        # Get ADIOS
+        wget --no-check-certificate -O adios.tar.gz $ADIOS_LINK
+        tar -xzvf adios.tar.gz --strip-components=1 -C $ADIOS_DIR
+
+    else
+        cd $PACKAGES
+        git clone $ADIOS_LINK $ADIOS_DIR
+    fi
 
     cd $ROOT_DIR
-	
 fi
 
 # Download HDF5 if it doesn't exist
 if [ ! -d $HDF5_DIR ]; then
-       
+
     cd $PACKAGES
     mkdir hdf5
 
@@ -46,7 +52,7 @@ fi
 
 # Download ASDF
 if [ ! -d $ASDF_DIR ]; then
-    
+
     cd $PACKAGES
     # Get ASDF
     git clone $ASDF_LINK
