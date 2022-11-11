@@ -2,11 +2,9 @@
 from lwsspy.GF.simulation import Simulation
 import toml
 
+
 def read_toml(file) -> dict:
     return toml.load(file)
-
-
-
 
 
 # Import

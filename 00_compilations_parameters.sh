@@ -9,17 +9,21 @@
 if [[ $HOSTNAME == *"rhea"* ]]; then
     module purge
     module load gcc/4.8.5 openmpi/3.1.4
+    CUDA_WITH="--with-cuda=cuda8"
 elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     module purge
     module load xl spectrum-mpi cuda cmake boost
+    CUDA_WITH="--with-cuda=cuda8"
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     module purge
     module load anaconda3
     module load openmpi/gcc cudatoolkit
     conda activate gf
+    CUDA_WITH="--with-cuda=cuda8"
 elif [[ $HOSTNAME == *"tiger"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit/10.2
+    CUDA_WITH="--with-cuda=cuda8"
 else
     echo "HOST: ${HOSTNAME} not recognized."
 fi
@@ -69,7 +73,7 @@ CFLAGS=""
 FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
-CUDA_WITH="--with-cuda=cuda8"
+
 CUDA_LIB="${PATH_CUDA/bin\/nvcc/lib64}"
 
 # SPECFEM

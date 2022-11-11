@@ -21,12 +21,12 @@ GAMMA_ROTATION_AZIMUTH          = 0.d0
 
 # number of elements at the surface along the two sides of the first chunk
 # (must be multiple of 16 and 8 * multiple of NPROC below)
-NEX_XI                          = 64
-NEX_ETA                         = 64
+NEX_XI                          = 128
+NEX_ETA                         = 128
 
 # number of MPI processors along the two sides of the first chunk
-NPROC_XI                        = 1
-NPROC_ETA                       = 1
+NPROC_XI                        = 2
+NPROC_ETA                       = 2
 
 #-----------------------------------------------------------
 #
@@ -200,7 +200,7 @@ RATIO_BY_WHICH_TO_INCREASE_IT   = 1.5d0
 MOVIE_SURFACE                   = .false.
 MOVIE_VOLUME                    = .false.
 MOVIE_COARSE                    = .false.
-NTSTEP_BETWEEN_FRAMES           = 50
+NTSTEP_BETWEEN_FRAMES           = 28
 HDUR_MOVIE                      = 0.d0
 
 # save movie in volume.  Will save element if center of element is in prescribed volume
@@ -252,7 +252,7 @@ NTSTEP_BETWEEN_OUTPUT_INFO      = 500
 # - the components of a (non necessarily unitary) direction vector for the force source in the E/N/Z_UP basis.
 # The direction vector is made unitary internally in the code and thus only its direction matters here;
 # its norm is ignored and the norm of the force used is the factor force source times the source time function.
-USE_FORCE_POINT_SOURCE          = .false.
+USE_FORCE_POINT_SOURCE          = .true.
 
 # use monochromatic source time function for CMTSOLUTION moment-tensor source.
 # half duration is interpreted as a PERIOD just to avoid changing CMTSOLUTION file format
@@ -304,6 +304,20 @@ USE_BINARY_FOR_LARGE_FILE       = .false.
 
 # flag to impose receivers at the surface or allow them to be buried
 RECEIVERS_CAN_BE_BURIED         = .true.
+
+
+#-----------------------------------------------------------
+#
+#  SGT Database
+#
+#-----------------------------------------------------------
+
+SAVE_GREEN_FUNCTIONS            = .true.
+USE_BUFFER_ELEMENTS             = .true.
+NUMBER_OF_BUFFER_ELEMENTS       = 1
+NSTEP                           = 25715
+T0                              = 0.d0
+
 
 #-----------------------------------------------------------
 #

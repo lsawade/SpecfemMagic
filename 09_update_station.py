@@ -15,7 +15,7 @@ inputdict = read_toml('reci.toml')
 
 # Add extra steps
 inputdict['nstep'] = None
-inputdict['ndt'] = 7.0
+# inputdict['ndt'] = 7.0
 
 ###################################
 # SIMULATION DIRECTORY CREATION  #
