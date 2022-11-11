@@ -30,7 +30,7 @@ if [ ! -d $ADIOS_DIR ]; then
         tar -xzvf adios.tar.gz --strip-components=1 -C $ADIOS_DIR
 
     else
-        cd $PACKAGES 
+        cd $PACKAGES
         git clone $ADIOS_LINK $ADIOS_DIR
     fi
 
@@ -39,7 +39,7 @@ fi
 
 # Download HDF5 if it doesn't exist
 if [ ! -d $HDF5_DIR ]; then
-       
+
     cd $PACKAGES
     mkdir hdf5
 
@@ -52,7 +52,7 @@ fi
 
 # Download ASDF
 if [ ! -d $ASDF_DIR ]; then
-    
+
     cd $PACKAGES
     # Get ASDF
     git clone $ASDF_LINK

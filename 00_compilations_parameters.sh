@@ -24,6 +24,10 @@ elif [[ $HOSTNAME == *"tiger"* ]]; then
     module purge
     module load openmpi/gcc cudatoolkit/10.2
     CUDA_WITH="--with-cuda=cuda8"
+elif [[ $HOSTNAME == *"della-gpu"* ]]; then
+    module purge
+    module load gcc/8 openmpi/gcc/4.1.2 cudatoolkit/11.7
+    CUDA_WITH="--with-cuda=cuda8"
 else
     echo "HOST: ${HOSTNAME} not recognized."
 fi

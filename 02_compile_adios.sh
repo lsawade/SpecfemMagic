@@ -10,8 +10,8 @@ cd $ADIOS_DIR
 if [ $ADIOS_VERSION == "2" ]
 then
     cd $ADIOS_DIR
-    mkdir $ADIOS_BUILD 
-    cd $ADIOS_BUILD 
+    mkdir $ADIOS_BUILD
+    cd $ADIOS_BUILD
     CC="$(which mpicc)" CXX="$(which mpicxx)" MPICC="$(which mpicc)" \
     cmake -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL}  \
           -DADIOS2_USE_MPI=ON \
