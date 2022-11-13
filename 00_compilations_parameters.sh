@@ -7,27 +7,44 @@
 # module load pgi/17.9/64
 # module load openmpi/pgi-19.9/4.0.3rc1/64
 if [[ $HOSTNAME == *"rhea"* ]]; then
+    
     module purge
     module load gcc/4.8.5 openmpi/3.1.4
     CUDA_WITH="--with-cuda=cuda8"
+
 elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
+    
     module purge
     module load xl spectrum-mpi cuda cmake boost
+    # NVIDIA Tesla V100 
     CUDA_WITH="--with-cuda=cuda8"
+    
 elif [[ $HOSTNAME == *"traverse"* ]]; then
+    
     module purge
     module load anaconda3
     module load openmpi/gcc cudatoolkit
     conda activate gf
-    CUDA_WITH="--with-cuda=cuda8"
+    # NVIDIA Tesla V100 
+    CUDA_WITH="--with-cuda=cuda9"
+    
 elif [[ $HOSTNAME == *"tiger"* ]]; then
+    
     module purge
     module load openmpi/gcc cudatoolkit/10.2
+
+    # NVIDIA P100
     CUDA_WITH="--with-cuda=cuda8"
+    
 elif [[ $HOSTNAME == *"della-gpu"* ]]; then
+
     module purge
+    module load anaconda3/2021.11
     module load gcc/8 openmpi/gcc/4.1.2 cudatoolkit/11.7
-    CUDA_WITH="--with-cuda=cuda8"
+    conda activate gf
+    # NVIDIA A100E 
+    CUDA_WITH="--with-cuda=cuda11"
+    
 else
     echo "HOST: ${HOSTNAME} not recognized."
 fi
