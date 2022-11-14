@@ -40,6 +40,9 @@ $CUDA_WITH CUDA_LIB="$CUDA_LIB" \
 $ASDF_WITH ASDF_LIBS="$ASDF_LIBS" \
 $ADIOS_WITH ADIOS_CONFIG="$ADIOS_CONFIG"
 
+# checks exit code
+if [[ $? -ne 0 ]]; then echo ERRREREOROROEOREORORO && exit 1; fi
+
 # Compilation
 mpif90 -v
 
