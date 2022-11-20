@@ -14,7 +14,7 @@ if [ -d build ]; then
 	rm -rf build
 fi
 mkdir build
-
+pwd
 echo $HDF5_DESTDIR
 
 # Configuration

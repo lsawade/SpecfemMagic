@@ -1,6 +1,7 @@
 #!/bin/env python
 
 import os
+import sys
 from runsf import sfrun, simultaneous_run
 
 # Current dir
@@ -24,6 +25,7 @@ if os.environ['RECIPROCAL'] == 'True':
             os.chdir('..')
         os.chdir(cwd)
 
+# sys.exit()
 
 if os.environ['FORWARD_TEST'] == 'True':
     specfemdir = 'specfem3d_globe_forward'

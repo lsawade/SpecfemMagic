@@ -15,9 +15,14 @@ then
     CC="$(which mpicc)" CXX="$(which mpicxx)" MPICC="$(which mpicc)" \
     cmake -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL}  \
           -DADIOS2_USE_MPI=ON \
-          -DADIOS2_USE_FORTRAN=ON \
+          -DADIOS2_USE_Fortran=ON \
+          -DADIOS2_USE_Python=ON \
+          -DADIOS2_USE_BP5=ON \
+          -DADIOS2_USE_HDF5=OFF \
           -DADIOS2_USE_HDF5=OFF \
           ../adios
+
+    # exit
     make -j 16
     make install
 else
