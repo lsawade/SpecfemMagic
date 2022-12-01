@@ -3,14 +3,14 @@
 #SBATCH --output=out.mesh
 # SBATCH --mail-user=lsawade@princeton.edu
 # SBATCH --nodes=2
-#SBATCH --ntasks=4
-#SBATCH --cpus-per-task=1
+#SBATCH --ntasks=24
+#SBATCH --cpus-per-task=4
 #SBATCH --ntasks-per-core=1
-#SBATCH --mem=240GB
+#SBATCH --mem=100GB
 #SBATCH --time=00:20:00
 # SBATCH --gres=gpu:1
 #SBATCH --reservation=test
-# SBATCH -C rh8
+
 
 # Load modules
 source ../../00_compilations_parameters.sh
