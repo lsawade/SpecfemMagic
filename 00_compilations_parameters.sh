@@ -26,7 +26,7 @@ elif [[ $HOSTNAME == *"traverse"* ]]; then
     module load openmpi/gcc cudatoolkit
     conda activate gf
     # NVIDIA Tesla V100 
-    CUDA_WITH="--with-cuda=cuda9"
+    CUDA_WITH="" #"--with-cuda=cuda9"
     
 elif [[ $HOSTNAME == *"tiger"* ]]; then
     
@@ -117,8 +117,8 @@ ASDF_WITH="" #--with-asdf"
 ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
-ADIOS_VERSION="2"
-ADIOS_LINK="https://github.com/ornladios/ADIOS2.git"
+ADIOS_VERSION="1"
+
 ADIOS_BUILD="${PACKAGES}/adios-build"
 ADIOS_INSTALL="${PACKAGES}/adios-install"
 
@@ -127,9 +127,11 @@ if [ $ADIOS_VERSION == "2" ]
 then
     ADIOS_WITH="--with-adios2"
     ADIOS_CONFIG="${ADIOS_INSTALL}/bin/adios2_config"
+    ADIOS_LINK="https://github.com/ornladios/ADIOS2.git"
 else
     ADIOS_WITH="--with-adios"
     ADIOS_CONFIG="${ADIOS_INSTALL}/bin/adios_config"
+    ADIOS_LINK="http://users.nccs.gov/~pnorbert/adios-1.13.1.tar.gz"
 fi
 export PATH=$PATH:${ADIOS_INSTALL}/bin
 
