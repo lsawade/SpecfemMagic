@@ -1,13 +1,13 @@
- PDEW2015  4 16 18  7 43.00  35.1500   26.8300  20.0 0.0 6.0 CRETE, GREECE                           
-event name:     201504161807A  
-time shift:      5.0000
-half duration:   3.1000
-latitude:       35.0300
-longitude:      26.8500
-depth:          24.0000
-Mrr:       5.480000e+24
-Mtt:      -1.230000e+25
-Mpp:       6.850000e+24
-Mrt:      -3.620000e+24
-Mrp:       1.800000e+25
-Mtp:      -3.050000e+24
+ PDE 2019 10  2 17 26 51.20 -23.4100  -67.5600 125.9 0.0 4.8 None
+event name:     C201910021726A
+time shift:     10.0000
+half duration:  5.0000
+latitude:      -23.4800
+longitude:     -67.6900
+depth:         152.6000
+Mrr:      -1.290000e+23
+Mtt:      -1.360000e+23
+Mpp:       2.650000e+23
+Mrt:       1.580000e+23
+Mrp:      -3.870000e+22
+Mtp:       2.730000e+22

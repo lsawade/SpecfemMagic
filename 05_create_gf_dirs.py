@@ -8,7 +8,7 @@ def read_toml(file) -> dict:
 
 
 # Import
-inputdict = read_toml("reci.toml")
+inputdict = read_toml("config.toml")['root']['cfg']
 
 ###################################
 #  SIMULATION DIRECTORY CREATION  #

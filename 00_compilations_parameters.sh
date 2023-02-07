@@ -16,15 +16,18 @@ elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
 
     module purge
     module load xl spectrum-mpi cuda cmake boost
+
     # NVIDIA Tesla V100
-    CUDA_WITH="--with-cuda=cuda8"
+    CUDA_WITH="--with-cuda=cuda9"
 
 elif [[ $HOSTNAME == *"traverse"* ]]; then
 
     module purge
     module load anaconda3
-    module load openmpi/gcc cudatoolkit
     conda activate gf
+    # module load openmpi/gcc/4.1.1/64 cudatoolkit/11.1
+    module load openmpi/gcc/4.0.4/64 cudatoolkit/11.1
+
     # NVIDIA Tesla V100
     CUDA_WITH="--with-cuda=cuda9"
 
@@ -42,6 +45,7 @@ elif [[ $HOSTNAME == *"della-gpu"* ]]; then
     module load anaconda3/2021.11
     module load gcc/8 openmpi/gcc/4.1.2 cudatoolkit/11.7
     conda activate gf
+
     # NVIDIA A100E
     CUDA_WITH="--with-cuda=cuda11"
 
@@ -58,7 +62,7 @@ PACKAGES="${ROOT_DIR}/packages"
 PATH_CUDA=$(which nvcc)
 ASDF_DIR="${PACKAGES}/asdf-library"
 ADIOS_DIR="${PACKAGES}/adios"
-HDF5_DIR="${PACKAGES}/hdf5"
+HDF5_MAINDIR="${PACKAGES}/hdf5"
 
 #########################
 # Green Function stuff  #
@@ -89,8 +93,8 @@ MPIFC=mpif90
 # -Wall        -warn all     Enable all compile time warnings
 # -fcheck=all  -check all    Enable run time checks
 
-
 CFLAGS=""
+CXXFLAGS="" # -std=c++11
 FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
@@ -103,10 +107,18 @@ SPECFEM_LINK="git@github.com:lsawade/specfem3d_globe.git"
 SPECFEM_BRANCH="GF"
 
 # HDF5
-HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.2/src/hdf5-1.12.2.tar.gz"
-HDF5_DESTDIR="${HDF5_DIR}/build"
+HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.9/src/hdf5-1.10.9.tar.gz"
+HDF5_DIR="${HDF5_MAINDIR}/build"
 HDF5_FC="${HDF5_DESTDIR}/bin/h5pfc"
 HDF5_CC="${HDF5_DESTDIR}/bin/h5pcc"
+
+# HDF5 PLUGINS
+HDF5_PLUGINS_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.9/plugins/hdf5_plugins-1_10_9.tar.gz"
+HDF5_PLUGINS_MAINDIR="${PACKAGES}/hdf5_plugins"
+LZF_MAINDIR="${PACKAGES}/lzflib"
+LZF_DIR="${PACKAGES}/lzflib/build"
+
+
 MPIFC_HDF5=$HDF5_FC
 export PATH=${HDF5_DESTDIR}/bin:${PATH}
 

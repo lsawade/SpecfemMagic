@@ -4,7 +4,7 @@
 source ./00_compilations_parameters.sh
 
 # HDF5 directory
-cd $HDF5_DIR
+cd $HDF5_MAINDIR
 
 # Get most recent config.guess/sub
 # wget -O ./bin/config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
@@ -15,12 +15,12 @@ if [ -d build ]; then
 fi
 mkdir build
 pwd
-echo $HDF5_DESTDIR
+echo $HDF5_DIR
 
 # Configuration
-./configure --enable-shared --enable-parallel \
+./configure --enable-shared --enable-parallel --enable-trace --enable-debug \
     --enable-fortran --enable-fortran2003 \
-    --prefix=$HDF5_DESTDIR CC=$MPICC FC=$MPIF90
+    --prefix=$HDF5_DIR CC=$MPICC FC=$MPIF90
 
 # Installation
 make -j

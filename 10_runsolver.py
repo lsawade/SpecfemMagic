@@ -3,6 +3,15 @@
 import os
 import sys
 from runsf import sfrun, simultaneous_run
+import toml
+
+sfmagic = "/scratch/gpfs/lsawade/SpecfemMagicGF"
+stationdir = os.path.join(sfmagic, 'DB', 'II', 'BFO')
+config = toml.load(os.path.join(stationdir, 'config.toml'))
+db = config['stationdir']
+rundirs = dict()
+for comp in ['N', 'E', 'Z']:
+    rundirs[comp] = os.path.join(db, comp, 'specfem')
 
 # Current dir
 cwd = os.path.abspath(os.getcwd())
@@ -18,14 +27,11 @@ if os.environ['RECIPROCAL'] == 'True':
         sfrun(rtype='s')
         os.chdir(cwd)
     else:
-        for rundir in ['run0001', 'run0002', 'run0003']:
+        for comp, rundir in rundirs.items():
             os.chdir(rundir)
             print(os.getcwd())
             sfrun(rtype='s')
-            os.chdir('..')
-        os.chdir(cwd)
-
-# sys.exit()
+            os.chdir(cwd)
 
 if os.environ['FORWARD_TEST'] == 'True':
     specfemdir = 'specfem3d_globe_forward'

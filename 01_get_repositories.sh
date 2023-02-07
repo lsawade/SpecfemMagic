@@ -38,14 +38,32 @@ if [ ! -d $ADIOS_DIR ]; then
 fi
 
 # Download HDF5 if it doesn't exist
-if [ ! -d $HDF5_DIR ]; then
+if [ ! -d $HDF5_MAINDIR ]; then
 
     cd $PACKAGES
     mkdir hdf5
 
     # Get HDF5
     wget -O hdf5.tar.gz $HDF5_LINK
-    tar -xzvf hdf5.tar.gz --strip-components=1 -C $HDF5_DIR
+    tar -xzvf hdf5.tar.gz --strip-components=1 -C $HDF5_MAINDIR
+
+    cd $ROOT_DIR
+fi
+
+if [ ! -d $HDF5_PLUGINS_MAINDIR ]; then
+
+    cd $PACKAGES
+    mkdir $LZF_MAINDIR
+    mkdir hdf5_plugins
+
+    # Get plugins
+    # LZF
+    wget -O liblzf.tar.gz "http://dist.schmorp.de/liblzf/liblzf-3.6.tar.gz"
+    tar -xzvf liblzf.tar.gz --strip-components=1 -C $LZF_MAINDIR
+    
+    # Get Plugin builder
+    wget -O hdf5_plugins.tar.gz $HDF5_PLUGINS_LINK
+    tar -xzvf hdf5_plugins.tar.gz --strip-components=1 -C $HDF5_PLUGINS_MAINDIR
 
     cd $ROOT_DIR
 fi
