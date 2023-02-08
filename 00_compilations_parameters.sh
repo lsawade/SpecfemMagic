@@ -63,6 +63,8 @@ PATH_CUDA=$(which nvcc)
 ASDF_DIR="${PACKAGES}/asdf-library"
 ADIOS_DIR="${PACKAGES}/adios"
 HDF5_MAINDIR="${PACKAGES}/hdf5"
+WORKFLOW_DIR="${ROOT_DIR}/workflow"
+
 
 #########################
 # Green Function stuff  #

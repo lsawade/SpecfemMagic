@@ -1,7 +1,7 @@
 #!/bin/env python
 
 import os
-from runsf import sfrun
+from python.runsf import sfrun
 
 # Current dir
 cwd = os.path.abspath(os.getcwd())

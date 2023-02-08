@@ -1,13 +1,13 @@
- PDE 1994 06 09 00 33 16.40   36.0000   25.0000 637.0 6.9 6.8 NORTHERN BOLIVIA
-event name:          060994A
-time shift:          29.0000
-half duration:       10.0000
-latitude:            15.0000
-longitude:           15.0000
-depth:              200.0000
-Mrr:            1.000000E+23
-Mtt:            0.000000E+00
-Mpp:            0.000000E+00
-Mrt:            0.000000E+00
-Mrp:            0.000000E+00
-Mtp:            0.000000E+00
+ PDE 2019 10  2 17 26 51.20 -23.4100  -67.5600 125.9 0.0 4.8 None
+event name:     C201910021726A
+time shift:     10.0000
+half duration:  5.0000
+latitude:      -23.4800
+longitude:     -67.6900
+depth:         152.6000
+Mrr:      -1.290000e+23
+Mtt:      -1.360000e+23
+Mpp:       2.650000e+23
+Mrt:       1.580000e+23
+Mrp:      -3.870000e+22
+Mtp:       2.730000e+22

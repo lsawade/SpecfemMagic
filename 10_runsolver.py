@@ -2,8 +2,10 @@
 
 import os
 import sys
-from runsf import sfrun, simultaneous_run
+from python.runsf import sfrun, simultaneous_run
 import toml
+import os
+
 
 sfmagic = "/scratch/gpfs/lsawade/SpecfemMagicGF"
 stationdir = os.path.join(sfmagic, 'DB', 'II', 'BFO')
