@@ -60,9 +60,10 @@ sequentially.
 04_compile_asdf.sh
 ```
 
-### 5. Configure specfem distros
+### 5. Set up the specfem3d_globe simulation directories for configuration
 
-Given a the
+Uses the `WORKFLOW_DIR` flag to get the database `config.toml` and creates
+reciprocal specfem distribution (and forward distribution if wanted).
 
 ### 6. Compile the Mesher
 
@@ -72,9 +73,35 @@ Given a the
 
 After this it is important to first run the mesher before compiling the solver.
 
-### 6. Compile Solver
+
+### 7. Run mesher
+
+Runs mesher for both reciprocal (and optionally forward directories).
 
 ```bash
-06_compile_specfem.sh
+07_compile_specfem.sh
+```
+
+### 8. Compile Solver
+
+```bash
+08_compile_specfem.sh
+```
+
+### 9. Update the station information
+
+Before meshing, we don't really know the timestep, so this script gets the
+timestep from specfem and defines subsampling rate and source time function from
+specfem.
+
+```bash
+08_compile_specfem.sh
+```
+
+### 10. Runs the solver
+
+Runs the solver for both forward and reciprocal databases.
+```bash
+10_runsolver.py
 ```
 

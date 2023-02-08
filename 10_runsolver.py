@@ -1,7 +1,6 @@
 #!/bin/env python
 
 import os
-import sys
 from python.runsf import sfrun, simultaneous_run
 import toml
 import os
