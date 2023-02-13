@@ -43,13 +43,15 @@ def main(node: Node):
     for net, sta, lat, lon, bur in zip(networks, stations, latitudes, longitudes, burials):
 
         # Add workflow for a single station
-        node.add(station, concurrent=False, name=f'{net}.{sta}',
-                 network=net,
-                 station=sta,
-                 latitude=lat,
-                 longitude=lon,
-                 burial=bur/1000.0,
-                 stationdir=os.path.join(node.db, net, sta))  # burial is in meters so divide by 1000.0
+        node.add(
+            station, concurrent=False,     name=f'{net}.{sta}',
+            network=net,
+            station=sta,
+            latitude=lat,
+            longitude=lon,
+            burial=bur/1000.0,
+            stationdir=os.path.join(node.db, net, sta),
+            workflowdir=os.path.abspath(node.cwd))  # burial is in meters so divide by 1000.0
 
 
 def station(node: Node):
@@ -89,7 +91,7 @@ def create_station_dir(node: Node):
     # Setup
     S = Simulation(**config)
     print(S)
-    S.create(no_specfem=True)
+    S.create()
 
     # dump config
     with open(os.path.join(node.db, node.network, node.station, 'config.toml'), 'w') as f:
@@ -126,10 +128,8 @@ def processing(node: Node):
     compression = node.processparams['compression']
 
     # Getting the command script
-    cmd = str(os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        'scripts', 'processadios.py'
-    ))
+    # Should be located in workflow file
+    cmd = os.path.join(node.workflowdir, 'processadios.py')
     args = f"{h5file} {filedict['N']} {filedict['E']} " \
            f"{filedict['Z']} {config_file} {precision} {compression}"
 

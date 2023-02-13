@@ -14,3 +14,4 @@ specfem3d_globe_forward
 __pycache__
 DB
 root.pickle
+workflow/*.slurm.*

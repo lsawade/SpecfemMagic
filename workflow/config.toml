@@ -1,25 +1,25 @@
 [job]
 system = [ "nnodes.job", "Traverse",]
 name = "Database maker"
-nnodes = 8
+nnodes = 2
 account = "GEO111"
-walltime = 480.0
+walltime = 180.0
 gap = 50.0
 debug = true
 
 [root]
 task = [ "workflow", "main",]
 workflowname = "Making a database right now, yeaah!"
-db = "/scratch/gpfs/lsawade/SpecfemMagicGF/DB"
-station_file = "stations.txt"
-creation = true
-simulation = true
+db = "/scratch/gpfs/lsawade/SpecfemMagicGF/DB_test"
+station_file = "stations_BFO.txt"
+creation = false
+simulation = false
 processing = true
 clear = false
 
 [root.cfg]
 specfemdir = "/scratch/gpfs/lsawade/SpecfemMagicGF/specfem3d_globe"
-par_file = "/scratch/gpfs/lsawade/SpecfemMagicGF/Par_file"
+par_file = "/scratch/gpfs/lsawade/SpecfemMagicGF/DATA_default/Par_file"
 target_file = "GF_LOCATIONS"
 target_latitude = 35.03
 target_longitude = 26.85

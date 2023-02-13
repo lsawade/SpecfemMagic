@@ -30,3 +30,10 @@ contains the database setup. For the database configuration please check the
 documentation of `lwsspy.GF` and, in particular, the `Simulation` class which
 takes in all the important keys.
 
+## Run Workflow
+
+See `nnodes` documentation for running the workflow.
+
+```bash
+nnrun
+```

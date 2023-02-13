@@ -10,7 +10,7 @@ if [[ $HOSTNAME == *"rhea"* ]]; then
 
     module purge
     module load gcc/4.8.5 openmpi/3.1.4
-    CUDA_WITH="--with-cuda=cuda8"
+    export CUDA_WITH="--with-cuda=cuda8"
 
 elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
 
@@ -18,7 +18,7 @@ elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     module load xl spectrum-mpi cuda cmake boost
 
     # NVIDIA Tesla V100
-    CUDA_WITH="--with-cuda=cuda9"
+    export CUDA_WITH="--with-cuda=cuda9"
 
 elif [[ $HOSTNAME == *"traverse"* ]]; then
 
@@ -29,7 +29,7 @@ elif [[ $HOSTNAME == *"traverse"* ]]; then
     module load openmpi/gcc/4.0.4/64 cudatoolkit/11.1
 
     # NVIDIA Tesla V100
-    CUDA_WITH="--with-cuda=cuda9"
+    export CUDA_WITH="--with-cuda=cuda9"
 
 elif [[ $HOSTNAME == *"tiger"* ]]; then
 
@@ -37,7 +37,7 @@ elif [[ $HOSTNAME == *"tiger"* ]]; then
     module load openmpi/gcc cudatoolkit/10.2
 
     # NVIDIA P100
-    CUDA_WITH="--with-cuda=cuda8"
+    export CUDA_WITH="--with-cuda=cuda8"
 
 elif [[ $HOSTNAME == *"della-gpu"* ]]; then
 
@@ -47,7 +47,7 @@ elif [[ $HOSTNAME == *"della-gpu"* ]]; then
     conda activate gf
 
     # NVIDIA A100E
-    CUDA_WITH="--with-cuda=cuda11"
+    export CUDA_WITH="--with-cuda=cuda11"
 
 else
     echo "HOST: ${HOSTNAME} not recognized."
@@ -57,13 +57,13 @@ fi
 #########################
 #   DIRECOTRIES INFOS   #
 #########################
-ROOT_DIR=$(pwd)
-PACKAGES="${ROOT_DIR}/packages"
-PATH_CUDA=$(which nvcc)
-ASDF_DIR="${PACKAGES}/asdf-library"
-ADIOS_DIR="${PACKAGES}/adios"
-HDF5_MAINDIR="${PACKAGES}/hdf5"
-WORKFLOW_DIR="${ROOT_DIR}/workflow"
+export ROOT_DIR=$(pwd)
+export PACKAGES="${ROOT_DIR}/packages"
+export PATH_CUDA=$(which nvcc)
+export ASDF_DIR="${PACKAGES}/asdf-library"
+export ADIOS_DIR="${PACKAGES}/adios"
+export HDF5_MAINDIR="${PACKAGES}/hdf5"
+export WORKFLOW_DIR="${ROOT_DIR}/workflow"
 
 
 #########################
@@ -78,13 +78,13 @@ export FORWARD_TEST=True
 #########################
 
 # C/C++ compiler
-CC=gcc
-CXX=g++
-MPICC=$(which mpicc)
+export CC=gcc
+export CXX=g++
+export MPICC=$(which mpicc)
 
 # Fortran compiler
-FC=gfortran
-MPIFC=mpif90
+export FC=gfortran
+export MPIFC=mpif90
 
 # Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
 # gfortran     ifort         effect
@@ -95,46 +95,45 @@ MPIFC=mpif90
 # -Wall        -warn all     Enable all compile time warnings
 # -fcheck=all  -check all    Enable run time checks
 
-CFLAGS=""
-CXXFLAGS="" # -std=c++11
-FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
+export CFLAGS=""
+export CXXFLAGS="" # -std=c++11
+export FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
-
-CUDA_LIB="${PATH_CUDA/bin\/nvcc/lib64}"
+export CUDA_LIB="${PATH_CUDA/bin\/nvcc/lib64}"
 
 # SPECFEM
-SPECFEM_DIR="${ROOT_DIR}/specfem3d_globe"
-SPECFEM_LINK="git@github.com:lsawade/specfem3d_globe.git"
-SPECFEM_BRANCH="GF"
+export SPECFEM_DIR="${ROOT_DIR}/specfem3d_globe"
+export SPECFEM_LINK="git@github.com:lsawade/specfem3d_globe.git"
+export SPECFEM_BRANCH="GF"
 
 # HDF5
-HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.9/src/hdf5-1.10.9.tar.gz"
-HDF5_DIR="${HDF5_MAINDIR}/build"
-HDF5_FC="${HDF5_DESTDIR}/bin/h5pfc"
-HDF5_CC="${HDF5_DESTDIR}/bin/h5pcc"
+export HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.9/src/hdf5-1.10.9.tar.gz"
+export HDF5_DIR="${HDF5_MAINDIR}/build"
+export HDF5_FC="${HDF5_DESTDIR}/bin/h5pfc"
+export HDF5_CC="${HDF5_DESTDIR}/bin/h5pcc"
 
 # HDF5 PLUGINS
-HDF5_PLUGINS_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.9/plugins/hdf5_plugins-1_10_9.tar.gz"
-HDF5_PLUGINS_MAINDIR="${PACKAGES}/hdf5_plugins"
-LZF_MAINDIR="${PACKAGES}/lzflib"
-LZF_DIR="${PACKAGES}/lzflib/build"
+export HDF5_PLUGINS_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.9/plugins/hdf5_plugins-1_10_9.tar.gz"
+export HDF5_PLUGINS_MAINDIR="${PACKAGES}/hdf5_plugins"
+export LZF_MAINDIR="${PACKAGES}/lzflib"
+export LZF_DIR="${PACKAGES}/lzflib/build"
 
 
-MPIFC_HDF5=$HDF5_FC
+export MPIFC_HDF5=$HDF5_FC
 export PATH=${HDF5_DESTDIR}/bin:${PATH}
 
 # ASDF
-ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
-ASDF_DESTDIR="${ASDF_DIR}/build"
-ASDF_WITH="" #--with-asdf"
-ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
+export ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
+export ASDF_DESTDIR="${ASDF_DIR}/build"
+export ASDF_WITH="" #--with-asdf"
+export ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
-ADIOS_VERSION="2"
-ADIOS_LINK="https://github.com/ornladios/ADIOS2.git"
-ADIOS_BUILD="${PACKAGES}/adios-build"
-ADIOS_INSTALL="${PACKAGES}/adios-install"
+export ADIOS_VERSION="2"
+export ADIOS_LINK="https://github.com/ornladios/ADIOS2.git"
+export ADIOS_BUILD="${PACKAGES}/adios-build"
+export ADIOS_INSTALL="${PACKAGES}/adios-install"
 
 # ADIOS version specific things
 if [ $ADIOS_VERSION == "2" ]

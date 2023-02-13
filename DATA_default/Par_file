@@ -240,6 +240,10 @@ NTSTEP_BETWEEN_OUTPUT_INFO      = 500
 #
 #-----------------------------------------------------------
 
+# interval in time steps for temporary writing of seismograms
+NTSTEP_BETWEEN_OUTPUT_SEISMOS   = 5000000
+NTSTEP_BETWEEN_READ_ADJSRC      = 1000
+
 # use a (tilted) FORCESOLUTION force point source (or several) instead of a CMTSOLUTION moment-tensor source.
 # This can be useful e.g. for asteroid simulations
 # in which the source is a vertical force, normal force, tilted force, impact etc.
@@ -261,6 +265,11 @@ USE_MONOCHROMATIC_CMT_SOURCE    = .false.
 
 # print source time function
 PRINT_SOURCE_TIME_FUNCTION      = .false.
+
+# Compute derivate of the force/or the moment tensor
+# with respect to [depth in km, latitude in deg, longitude in deg] -- [1,2,3]
+USE_SOURCE_DERIVATIVE = .false.
+USE_SOURCE_DERIVATIVE_DIRECTION = 1
 
 #-----------------------------------------------------------
 #
@@ -308,14 +317,20 @@ RECEIVERS_CAN_BE_BURIED         = .true.
 
 #-----------------------------------------------------------
 #
-#  SGT Database
+#  Green Function Database Generation
 #
 #-----------------------------------------------------------
 
-SAVE_GREEN_FUNCTIONS            = .true.
+SAVE_GREEN_FUNCTIONS            = .false.
 USE_BUFFER_ELEMENTS             = .true.
 NUMBER_OF_BUFFER_ELEMENTS       = 1
-NSTEP                           = 25715
+
+# In general it makes sense to set these values
+# Because you will run it with an external STF
+# --> NTSTEP_BETWEEN_FRAMES (from movie section,
+#     a separate parameter is probably better)
+# Uncomment NSTEP and T0 to set length of record manually.
+NSTEP                           = 104286
 T0                              = 0.d0
 
 

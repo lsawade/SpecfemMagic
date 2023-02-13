@@ -21,7 +21,6 @@ inputdict = read_toml(
 #  SIMULATION DIRECTORY CREATION  #
 # Setup
 
-
 S = Simulation(**inputdict)
 print(S)
-S.create()
+S.create_specfem()
