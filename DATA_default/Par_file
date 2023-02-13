@@ -13,20 +13,20 @@ SAVE_FORWARD                    = .false.   # save last frame of forward simulat
 NCHUNKS                         = 6
 
 # angular width of the first chunk (not used if full sphere with six chunks)
-ANGULAR_WIDTH_XI_IN_DEGREES     = 20.d0   # angular size of a chunk
-ANGULAR_WIDTH_ETA_IN_DEGREES    = 20.d0
-CENTER_LATITUDE_IN_DEGREES      = 40.d0
-CENTER_LONGITUDE_IN_DEGREES     = 25.d0
+ANGULAR_WIDTH_XI_IN_DEGREES     = 60.d0   # angular size of a chunk
+ANGULAR_WIDTH_ETA_IN_DEGREES    = 60.d0
+CENTER_LATITUDE_IN_DEGREES      = 30.d0
+CENTER_LONGITUDE_IN_DEGREES     = 45.d0
 GAMMA_ROTATION_AZIMUTH          = 0.d0
 
 # number of elements at the surface along the two sides of the first chunk
 # (must be multiple of 16 and 8 * multiple of NPROC below)
-NEX_XI                          = 128
-NEX_ETA                         = 128
+NEX_XI                          = 256
+NEX_ETA                         = 256
 
 # number of MPI processors along the two sides of the first chunk
-NPROC_XI                        = 2
-NPROC_ETA                       = 2
+NPROC_XI                        = 16
+NPROC_ETA                       = 16
 
 #-----------------------------------------------------------
 #
@@ -89,7 +89,7 @@ REGIONAL_MESH_CUTOFF            = .false.
 
 # regional mesh cut-off depth (in km)
 # possible selections are: 24.4d0, 80.d0, 220.d0, 400.d0, 600.d0, 670.d0, 771.d0
-REGIONAL_MESH_CUTOFF_DEPTH      = 400.d0
+REGIONAL_MESH_CUTOFF_DEPTH      = 220.d0
 
 # regional mesh cut-off w/ a second doubling layer below 220km interface
 # (by default, a first doubling layer will be added below the Moho, and a second one below the 771km-depth layer.
@@ -103,7 +103,7 @@ REGIONAL_MESH_ADD_2ND_DOUBLING  = .false.
 #-----------------------------------------------------------
 
 # absorbing boundary conditions for a regional simulation
-ABSORBING_CONDITIONS            = .false.
+ABSORBING_CONDITIONS            = .true.
 
 # run global simulation for a circular region and apply high attenuation for the rest of the model
 # this creates an absorbing boundary with less reflection than stacey at a cost of 6x the computational cost
@@ -145,7 +145,7 @@ UNDO_ATTENUATION                = .false.
 # and run your job with "aprun -n$NPROC -N1 -S1 -j1"
 # (each host has 32 GB on Titan, each GPU has 6 GB, thus even if all the GPU arrays are duplicated on the host
 #  this leaves 32 - 6 = 26 GB free on the host; leaving 1 GB for the Linux system, we can safely use 100% of 25 GB)
-MEMORY_INSTALLED_PER_CORE_IN_GB = 4.d0
+MEMORY_INSTALLED_PER_CORE_IN_GB = 8.d0
 # What percentage of this total do you allow us to use for arrays to undo attenuation, keeping in mind that you
 # need to leave some memory available for the GNU/Linux system to run
 # (a typical value is 85%; any value below is fine but the code will then save a lot of data to disk;

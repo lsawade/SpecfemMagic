@@ -1,4 +1,4 @@
-# SpecfemMagic
+# SpecfemMagic TURKEY EVENT BRANCH!
 
 This repo contains a bunch of scripts that download, configure, and compile
 specfem as well as specfem for the generation of a Green function database.
