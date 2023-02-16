@@ -7,7 +7,7 @@ import os
 
 
 sfmagic = "/scratch/gpfs/lsawade/SpecfemMagicGF"
-stationdir = os.path.join(sfmagic, 'DB', 'II', 'BFO')
+stationdir = os.path.join(sfmagic, 'DB_test', 'II', 'BFO')
 config = toml.load(os.path.join(stationdir, 'config.toml'))
 db = config['stationdir']
 rundirs = dict()
