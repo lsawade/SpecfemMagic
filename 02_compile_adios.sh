@@ -20,10 +20,11 @@ then
           -DADIOS2_USE_BP5=ON \
           -DADIOS2_USE_HDF5=OFF \
           -DADIOS2_USE_HDF5=OFF \
+	  -DADIOS2_USE_PYTHON=ON \
+	  -DPython_EXECUTABLE=$(which python3) \
           ../adios
 
-    # exit
-    make -j 16
+    make -j
     make install
 else
     # Compile Adios1

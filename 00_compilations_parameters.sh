@@ -11,6 +11,7 @@ if [[ $HOSTNAME == *"rhea"* ]]; then
     module purge
     module load gcc/4.8.5 openmpi/3.1.4
     export CUDA_WITH="--with-cuda=cuda8"
+    COMPILER="GNU"
 
 elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
 
@@ -20,16 +21,19 @@ elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     # NVIDIA Tesla V100
     export CUDA_WITH="--with-cuda=cuda9"
 
+    COMPILER="IBM"
+
 elif [[ $HOSTNAME == *"traverse"* ]]; then
 
     module purge
     module load anaconda3
     conda activate gf
-    # module load openmpi/gcc/4.1.1/64 cudatoolkit/11.1
     module load openmpi/gcc/4.0.4/64 cudatoolkit/11.1
 
     # NVIDIA Tesla V100
     export CUDA_WITH="--with-cuda=cuda9"
+
+    COMPILER="GNU"
 
 elif [[ $HOSTNAME == *"tiger"* ]]; then
 
@@ -39,6 +43,8 @@ elif [[ $HOSTNAME == *"tiger"* ]]; then
     # NVIDIA P100
     export CUDA_WITH="--with-cuda=cuda8"
 
+    COMPILER="GNU"
+
 elif [[ $HOSTNAME == *"della-gpu"* ]]; then
 
     module purge
@@ -46,11 +52,14 @@ elif [[ $HOSTNAME == *"della-gpu"* ]]; then
     module load gcc/8 openmpi/gcc/4.1.2 cudatoolkit/11.7
     conda activate gf
 
-    # NVIDIA A100E
+    # NVIDIA A100
     export CUDA_WITH="--with-cuda=cuda11"
+
+    COMPILER="GNU"
 
 else
     echo "HOST: ${HOSTNAME} not recognized."
+    exit
 fi
 
 
@@ -78,13 +87,35 @@ export FORWARD_TEST=True
 #########################
 
 # C/C++ compiler
-export CC=gcc
-export CXX=g++
-export MPICC=$(which mpicc)
 
-# Fortran compiler
-export FC=gfortran
-export MPIFC=mpif90
+if [[ ${COMPILER} == "IBM" ]]
+then
+     # C/C++ compiler
+     export CC=xlc
+     export CXX=xl++
+     export MPICC=$(which mpicc)
+
+     # Fortran compiler
+     export FC=xlf90
+     export MPIFC=mpif90
+
+elif [[ ${COMPILER} == "GNU" ]]
+then
+     # C/C++ compiler
+     export CC=gcc
+     export CXX=g++
+     export MPICC=$(which mpicc)
+
+     # Fortran compiler
+     export FC=gfortran
+     export MPIFC=mpif90
+else
+    echo "Compiler not recognized. Abort."
+    exit
+fi
+
+
+
 
 # Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
 # gfortran     ifort         effect
@@ -144,5 +175,6 @@ else
     ADIOS_WITH="--with-adios"
     ADIOS_CONFIG="${ADIOS_INSTALL}/bin/adios_config"
 fi
-export PATH=$PATH:${ADIOS_INSTALL}/bin
 
+export PATH=$PATH:${ADIOS_INSTALL}/bin
+export PYTHONPATH=${PYTHONPATH}:${ADIOS_INSTALL}/lib/python3.8/site-packages
