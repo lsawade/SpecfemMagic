@@ -37,4 +37,4 @@ else
     make install
 fi
 
-cd $ROOT_DIR
+cd $SFM_ROOT

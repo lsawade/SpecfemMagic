@@ -1,0 +1,35 @@
+#%Module
+
+proc ModulesHelp { } {
+   puts stderr "Module is used to load ASDF compiled for use with Specfem"
+}
+
+module-whatis "This module load all necessary variables to build and use ASDF"
+
+prereq sfm
+
+# Get root
+set SFM_ROOT $::env(SFM_ROOT)
+set PACKAGES "${SFM_ROOT}/packages"
+set ASDFDIR "${PACKAGES}/asdf-library"
+
+# Get asdf params
+source ${SFM_ROOT}/tcl/read_cfg.tcl
+cfg::parse_file  ${SFM_ROOT}/config.cfg
+set asdfLink "$cfg::ASDF(LINK)"
+set asdfWith "$cfg::ASDF(WITH)"
+
+# Package and build related variables
+set ASDFDESTDIR ${ASDFDIR}/build
+
+if {$asdfWith==1} {
+    setenv ASDF_WITH "--with-asdf"
+} else {
+    setenv ASDF_WITH ""
+    exit
+}
+
+setenv ASDF_LINK $asdfLink
+setenv ASDF_DESTDIR $ASDFDESTDIR
+setenv ASDF_LIBS "-L${ASDFDESTDIR}/usr/local/lib64 -lasdf"
+

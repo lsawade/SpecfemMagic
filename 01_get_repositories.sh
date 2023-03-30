@@ -34,7 +34,7 @@ if [ ! -d $ADIOS_DIR ]; then
         git clone $ADIOS_LINK $ADIOS_DIR
     fi
 
-    cd $ROOT_DIR
+    cd $SFM_ROOT
 fi
 
 # Download HDF5 if it doesn't exist
@@ -47,7 +47,7 @@ if [ ! -d $HDF5_MAINDIR ]; then
     wget -O hdf5.tar.gz $HDF5_LINK
     tar -xzvf hdf5.tar.gz --strip-components=1 -C $HDF5_MAINDIR
 
-    cd $ROOT_DIR
+    cd $SFM_ROOT
 fi
 
 if [ ! -d $HDF5_PLUGINS_MAINDIR ]; then
@@ -60,12 +60,12 @@ if [ ! -d $HDF5_PLUGINS_MAINDIR ]; then
     # LZF
     wget -O liblzf.tar.gz "http://dist.schmorp.de/liblzf/liblzf-3.6.tar.gz"
     tar -xzvf liblzf.tar.gz --strip-components=1 -C $LZF_MAINDIR
-    
+
     # Get Plugin builder
     wget -O hdf5_plugins.tar.gz $HDF5_PLUGINS_LINK
     tar -xzvf hdf5_plugins.tar.gz --strip-components=1 -C $HDF5_PLUGINS_MAINDIR
 
-    cd $ROOT_DIR
+    cd $SFM_ROOT
 fi
 
 # Download ASDF
@@ -75,6 +75,6 @@ if [ ! -d $ASDF_DIR ]; then
     # Get ASDF
     git clone $ASDF_LINK
 
-    cd $ROOT_DIR
+    cd $SFM_ROOT
 fi
 

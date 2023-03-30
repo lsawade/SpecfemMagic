@@ -22,5 +22,5 @@ make
 make doc
 make install DESTDIR="$ASDF_DESTDIR"
 
-cd $ROOT_DIR
+cd $SFM_ROOT
 

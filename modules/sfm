@@ -1,0 +1,132 @@
+#%Module
+proc ModulesHelp { } {
+   puts stderr "Sets the main path for SPECFEMMAGIC"
+}
+
+module-whatis "This module load all necessary variables to build and use\n HDF5, ADIOS, ASDF with SPECFEM3D_GLOBE"
+
+
+# setenv "SFMAGIC_ROOT" "${HOME}"
+# This is a *good* use of [variable]…
+variable myLocation [file normalize [info script]]
+
+proc getResourceDirectory {} {
+    variable myLocation
+    return [file dirname $myLocation]
+}
+
+# set thisFile [dict get [info frame 0] file]
+set myLocation $ModulesCurrentModulefile
+set hostname $::env(HOSTNAME)
+
+# source("bash","./sfroot.sh")
+set moduledir [file dirname $myLocation]
+set SFM_ROOT [file dirname $moduledir]
+set PACKAGES "${SFM_ROOT}/packages"
+set ASDFDIR "${PACKAGES}/asdf-library"
+set ADIOSDIR "${PACKAGES}/adios"
+set WORKFLOWDIR "${SFM_ROOT}/workflow"
+
+source ${SFM_ROOT}/tcl/read_cfg.tcl
+
+
+
+# puts $hostname
+if {[string match *home* $hostname]} {
+
+    set SFM_HOST "ORNL"
+    set COMPILER "IBM"
+
+} elseif {[string match *login* $hostname] || [string match *batch* $hostname]} {
+
+    set SFM_HOST "SUMMIT"
+
+    module load xl
+    module load spectrum-mpi
+    module load cuda
+    module load cmake
+    module load boost
+
+    # NVIDIA Tesla V100
+    set CUDAWITH "--with-cuda=cuda9"
+
+    set COMPILER "IBM"
+
+} elseif {[string match *traverse* $hostname]} {
+
+    module load openmpi/gcc/4.0.4/64
+    module load cudatoolkit/11.1
+
+    # NVIDIA Tesla V100
+    set CUDAWITH "--with-cuda=cuda9"
+    set COMPILER "GNU"
+
+} elseif {[string match *tiger* $hostname]} {
+
+    module load openmpi/gcc
+    module load cudatoolkit/10.2
+
+    # NVIDIA Tesla P100
+    set CUDAWITH "--with-cuda=cuda8"
+    set COMPILER "GNU"
+
+} elseif {[string match *della-gpu* $hostname]} {
+
+    module load gcc/8
+    module load openmpi/gcc/4.1.2
+    module load cudatoolkit/11.7
+
+    # NVIDIA Tesla A100
+    set CUDAWITH "--with-cuda=cuda11"
+    set COMPILER "GNU"
+
+} else {
+    puts "Hostname not defined. Cant load the appropriate modules."
+}
+
+
+if {[string equal $COMPILER "IBM"]} {
+    # C/C++ compiler
+    set CC xlc
+    set CXX xl++
+    set MPICC mpicc
+
+    # Fortran compiler
+    set FC xlf90
+    set MPIFC mpif90
+
+} elseif {[string equal $COMPILER "GNU"]} {
+     # C/C++ compiler
+    set CC gcc
+    set CXX g++
+    set MPICC mpicc
+
+     # Fortran compiler
+    set FC gfortran
+    set MPIFC mpif90
+
+} else {
+    puts "Compiler not recognized. Abort."
+    exit
+}
+
+# Set directories
+setenv SFM_HOST $SFM_HOST
+setenv SFM_ROOT $SFM_ROOT
+setenv PACKAGES $PACKAGES
+setenv ASDF_DIR  $ASDFDIR
+setenv ADIOS_DIR $ADIOSDIR
+setenv WORKFLOW_DIR $WORKFLOWDIR
+
+
+# Set Compilation vars
+setenv CUDA_WITH $CUDAWITH
+setenv COMPILER $COMPILER
+setenv CC $CC
+setenv CXX $CXX
+setenv MPICC $MPICC
+setenv MPIFC $MPIFC
+
+
+# Variables from the configuration file
+cfg::parse_file  ${SFM_ROOT}/config.cfg

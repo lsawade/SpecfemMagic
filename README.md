@@ -13,6 +13,73 @@ written in Bash originally
 
 ## Main configuration files
 
+As of recently, the setup has changed to a more environment module type of setup.
+The main reason for this is that I'm constantly reusing the packages that I
+install such as ADIOS, HDF5, ASDF.
+
+So after setting
+```bash
+export MODULEPATH=/path/to/specfemmagic/modules:$MODULEPATH
+```
+
+You should be able to just load the modules after installing them, so that
+
+```bash
+module load sfm       # loads base environment variables
+module load sfm-hdf5  # loads HDF5 environment variables and sets path
+module load sfm-asdf  # loads ASDF environment variables and sets path
+module load sfm-adios # loads ADIOS environment variables and sets path
+```
+
+Now it is important to realize that these statements only set paths as you can
+see in for example
+```bash
+module show sfm-hdf5
+```
+
+If you have multiple specfem magics and want to compile specfem in a variety of ways
+you can create a super module that loads the module path to the specfem directories.
+Here specfem magic is explicitly located at `${HOME}/GFMagic`
+
+A sample would look like this:
+
+```tcl
+#%Module
+
+proc ModulesHelp { } {
+   puts stderr "Adds to Module path and loads sfmagic for reciprocal glad m25 with 128x128"
+}
+
+module-whatis "Module gets paths for installed specfem. Afterwards you can load sfm, sfm-hdf5, sfm-adios, sfm-asdf"
+
+set MODULEPATH $::env(MODULEPATH)
+set HOME $::env(HOME)
+
+pushenv MODULEPATH "$MODULEPATH:$HOME/GFMagic/modules"
+```
+
+If you place it under the name
+```bash
+${HOME}/Modules/modulefiles/sfmagic/reciprocal/glad-m25/128```
+```
+and export the path to the modules
+```bash
+export MODULEPATH=${HOME}/Modules/modulefiles:$MODULEPATH
+```
+then you can load separate specfemmagics from the commandline to setup new
+simulation directories and use the subpackages like so:
+
+```bash
+module load sfmagic/reciprocal/glad-m25/128
+module load sfm sfm-hdf5 sfm-adios sfm-asdf
+```
+
+Again this only sets variables and paths, the installation scripts still have to be run to actually use these packages.
+
+I know not a lot of people are familiar with module files, but maybe it suffices
+to say that they are very neat ways of modifying, e.g., the PATH  variable, and
+when unloading the module unsetting it.
+
 ### `00_compilations_parameters.sh`
 
 Check out `00_compilations_parameters.sh`. It contains setups for most major

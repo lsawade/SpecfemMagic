@@ -36,6 +36,8 @@ then
         echo "MPIFC:____$MPIFC"
         echo "MPICC:____$MPICC"
     fi
+    PATH_CUDA="$(dirname $(dirname $(which nvcc)))"
+    CUDA_LIB="${PATH_CUDA}/lib64"
 
     # Configure
     ./configure CC=$CC CXX=$CXX FC=$FC MPIFC=$MPIFC \
