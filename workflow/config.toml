@@ -10,7 +10,7 @@ debug = true
 [root]
 task = [ "workflow", "main",]
 workflowname = "Making a database right now, yeaah!"
-db = "/scratch/gpfs/lsawade/SpecfemMagicGF/DB_test"
+db = "/gpfs/alpine/geo111/scratch/lsawade/DB/GLAD-M25/128/"
 station_file = "stations_BFO.txt"
 creation = false
 simulation = false
@@ -18,8 +18,8 @@ processing = true
 clear = false
 
 [root.cfg]
-specfemdir = "/scratch/gpfs/lsawade/SpecfemMagicGF/specfem3d_globe"
-par_file = "/scratch/gpfs/lsawade/SpecfemMagicGF/DATA_default/Par_file"
+specfemdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe_reciprocal"
+par_file = "DATA_default/Par_file"
 target_file = "GF_LOCATIONS"
 target_latitude = 35.03
 target_longitude = 26.85
@@ -32,11 +32,12 @@ ndt = 4.0
 lpfilter = "butter"
 subsample = true
 force_factor = 10000000000.0
-forward_test = false
 cmtsolutionfile = "CMTSOLUTION"
 broadcast_mesh_model = false
 simultaneous_runs = false
 overwrite = false
+forward_test = false
+forwardoutdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS//GLAD-M25/128/specfem3d_globe"
 
 [root.processparams]
 precision = "half"

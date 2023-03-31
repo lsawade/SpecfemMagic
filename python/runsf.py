@@ -53,7 +53,7 @@ def sfrun(rtype: str = 's'):
         if rtype == 's':
             check_call(f'srun -n {nprocs} bin/xspecfem3D', shell=True)
 
-    if "login" in HOSTNAME:
+    if "batch" in HOSTNAME:
         if rtype == 'm':
             check_call(f'jsrun -n {nprocs} bin/xmeshfem3D', shell=True)
         if rtype == "s":

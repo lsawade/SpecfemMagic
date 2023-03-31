@@ -1,14 +1,20 @@
 #!/bin/bash
 
 # Get compiler options
-source 00_compilations_parameters.sh
 
+if [[ -z $SFM_ROOT ]]
+then
+    echo SFM_ROOT not defined please: source 00_setup.sh
+    stop
+fi
 
 cd $ADIOS_DIR
+
 
 # ADIOS2
 if [ $ADIOS_VERSION == "2" ]
 then
+    echo TESTING THE VERSION $(which mpicc)
     cd $ADIOS_DIR
     mkdir $ADIOS_BUILD
     cd $ADIOS_BUILD
@@ -20,12 +26,13 @@ then
           -DADIOS2_USE_BP5=ON \
           -DADIOS2_USE_HDF5=OFF \
           -DADIOS2_USE_HDF5=OFF \
-	  -DADIOS2_USE_PYTHON=ON \
-	  -DPython_EXECUTABLE=$(which python3) \
+          -DADIOS2_USE_PYTHON=ON \
+          -DPython_EXECUTABLE=$(which python3) \
           ../adios
 
     make -j
     make install
+
 else
     # Compile Adios1
     cd $ADIOS_DIR
@@ -35,6 +42,7 @@ else
     ../configure CC=$CC CXX=$CXX FC=$FC  CFLAGS="$CFLAGS" --prefix="$ADIOS_INSTALL"
     make -j
     make install
+
 fi
 
 cd $SFM_ROOT

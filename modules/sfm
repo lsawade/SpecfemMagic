@@ -41,16 +41,16 @@ if {[string match *home* $hostname]} {
 
     set SFM_HOST "SUMMIT"
 
+    module load cmake
     module load xl
     module load spectrum-mpi
     module load cuda
-    module load cmake
     module load boost
 
     # NVIDIA Tesla V100
     set CUDAWITH "--with-cuda=cuda9"
 
-    set COMPILER "IBM"
+    set COMPILER "GNU"
 
 } elseif {[string match *traverse* $hostname]} {
 
@@ -88,8 +88,9 @@ if {[string match *home* $hostname]} {
 if {[string equal $COMPILER "IBM"]} {
     # C/C++ compiler
     set CC xlc
-    set CXX xl++
+    set CXX xlc++
     set MPICC mpicc
+    set MPICXX mpic++
 
     # Fortran compiler
     set FC xlf90
@@ -100,6 +101,7 @@ if {[string equal $COMPILER "IBM"]} {
     set CC gcc
     set CXX g++
     set MPICC mpicc
+    set MPICXX mpic++
 
      # Fortran compiler
     set FC gfortran
@@ -125,8 +127,29 @@ setenv COMPILER $COMPILER
 setenv CC $CC
 setenv CXX $CXX
 setenv MPICC $MPICC
+setenv MPICXX $MPICXX
 setenv MPIFC $MPIFC
 
 
 # Variables from the configuration file
 cfg::parse_file  ${SFM_ROOT}/config.cfg
+
+set FORWARD "$cfg::SPECFEM(FORWARD)"
+set RECIPROCAL "$cfg::SPECFEM(RECIPROCAL)"
+set SPECFEM_DIR "$cfg::SPECFEM(SPECFEM_DIR)"
+set SPECFEM_RECIPROCAL_DIR "$cfg::SPECFEM(SPECFEM_RECIPROCAL_DIR)"
+set SPECFEM_LINK "$cfg::SPECFEM(SPECFEM_LINK)"
+set SPECFEM_BRANCH "$cfg::SPECFEM(SPECFEM_BRANCH)"
+
+
+setenv FORWARD $FORWARD
+setenv RECIPROCAL $RECIPROCAL
+setenv SPECFEM_DIR $SPECFEM_DIR
+setenv SPECFEM_RECIPROCAL_DIR $SPECFEM_RECIPROCAL_DIR
+setenv SPECFEM_LINK $SPECFEM_LINK
+setenv SPECFEM_BRANCH $SPECFEM_BRANCH
+
+
+setenv CFLAGS "-g -O3 -qcheck -qsigtrap -qstackprotect=all"
+setenv CXXFLAGS ""
+setenv FCFLAGS "-g -O3 -qcheck -qsigtrap -qstackprotect=all"

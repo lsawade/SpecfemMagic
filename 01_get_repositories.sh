@@ -1,15 +1,26 @@
 #!/bin/bash
 
-# Get Variables
-source 00_compilations_parameters.sh
+if [[ -z $SFM_ROOT ]]
+then
+    echo SFM_ROOT not defined please: source 00_setup.sh
+    stop
+fi
 
 # First get specfem3d_globe repository
-if [ ! -d $SPECFEM_DIR ]; then
-    git clone $SPECFEM_LINK
-    cd specfem3d_globe
+if [ ! -d $SPECFEM_RECIPROCAL_DIR ]; then
+    git clone $SPECFEM_LINK $SPECFEM_RECIPROCAL_DIR
+    cd $SPECFEM_RECIPROCAL_DIR
     git checkout -b $SPECFEM_BRANCH origin/$SPECFEM_BRANCH
-    cd $CURRENT_DIR
+    cd $SFM_ROOT
 fi
+
+if [ ! -d $SPECFEM_DIR ]; then
+    git clone $SPECFEM_LINK $SPECFEM_DIR
+    cd $SPECFEM_DIR
+    git checkout -b $SPECFEM_BRANCH origin/$SPECFEM_BRANCH
+    cd $SFM_ROOT
+fi
+
 
 # Create Package Folder if it doesn't exist
 if [ ! -d $PACKAGES ]; then
@@ -50,23 +61,23 @@ if [ ! -d $HDF5_MAINDIR ]; then
     cd $SFM_ROOT
 fi
 
-if [ ! -d $HDF5_PLUGINS_MAINDIR ]; then
+# if [ ! -d $HDF5_PLUGINS_MAINDIR ]; then
 
-    cd $PACKAGES
-    mkdir $LZF_MAINDIR
-    mkdir hdf5_plugins
+#     cd $PACKAGES
+#     mkdir $LZF_MAINDIR
+#     mkdir hdf5_plugins
 
-    # Get plugins
-    # LZF
-    wget -O liblzf.tar.gz "http://dist.schmorp.de/liblzf/liblzf-3.6.tar.gz"
-    tar -xzvf liblzf.tar.gz --strip-components=1 -C $LZF_MAINDIR
+#     # Get plugins
+#     # LZF
+#     wget -O liblzf.tar.gz "http://dist.schmorp.de/liblzf/liblzf-3.6.tar.gz"
+#     tar -xzvf liblzf.tar.gz --strip-components=1 -C $LZF_MAINDIR
 
-    # Get Plugin builder
-    wget -O hdf5_plugins.tar.gz $HDF5_PLUGINS_LINK
-    tar -xzvf hdf5_plugins.tar.gz --strip-components=1 -C $HDF5_PLUGINS_MAINDIR
+#     # Get Plugin builder
+#     wget -O hdf5_plugins.tar.gz $HDF5_PLUGINS_LINK
+#     tar -xzvf hdf5_plugins.tar.gz --strip-components=1 -C $HDF5_PLUGINS_MAINDIR
 
-    cd $SFM_ROOT
-fi
+#     cd $SFM_ROOT
+# fi
 
 # Download ASDF
 if [ ! -d $ASDF_DIR ]; then

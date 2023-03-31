@@ -1,7 +1,11 @@
 #!/bin/bash
 
 # Get Settings
-source ./00_compilations_parameters.sh
+if [[ -z $SFM_ROOT ]]
+then
+    echo SFM_ROOT not defined please: source 00_setup.sh
+    stop
+fi
 
 # HDF5 directory
 cd $HDF5_MAINDIR
@@ -11,19 +15,30 @@ cd $HDF5_MAINDIR
 # wget -O ./bin/config.sub 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
 
 if [ -d build ]; then
-	rm -rf build
+    rm -rf build
 fi
 mkdir build
 pwd
-echo $HDF5_DIR
+cd build
+pwd
 
 # Configuration
-./configure --enable-shared --enable-parallel --enable-trace --enable-debug \
-    --enable-fortran --enable-fortran2003 \
-    --prefix=$HDF5_DIR CC=$MPICC FC=$MPIF90
+CC=$MPICC \
+  FC=$MPIFC \
+  CXX=$MPICXX \
+  cmake -G "Unix Makefiles" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$HDF5_ROOT \
+  -DHDF5_ENABLE_PARALLEL=ON  \
+  -DBUILD_SHARED_LIBS=ON \
+  -DHDF5_BUILD_CPP_LIB=OFF \
+  -DHDF5_BUILD_FORTRAN=ON \
+  -DHDF5_BUILD_JAVA=OFF \
+  -DHDF5_ENABLE_THREADSAFE=OFF \
+  ../hdf5-1.12.2/
 
-# Installation
-make -j
-# make -j check
+
+
+# Install
 make -j install
 

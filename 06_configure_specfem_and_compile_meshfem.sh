@@ -1,14 +1,18 @@
 #!/bin/bash
 
 # Get compilation options
-source 00_compilations_parameters.sh
+if [[ -z $SFM_ROOT ]]
+then
+    echo SFM_ROOT not defined please: source 00_setup.sh
+    stop
+fi
 
 
 if [ "${RECIPROCAL}" == "True" ]
 then
 
     # Specfem repository
-    cd specfem3d_globe
+    cd $SPECFEM_RECIPROCAL_DIR
 
     make clean
     make realclean
@@ -38,9 +42,11 @@ then
     fi
     PATH_CUDA="$(dirname $(dirname $(which nvcc)))"
     CUDA_LIB="${PATH_CUDA}/lib64"
+    CFLAGS="$CFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include"
+    FCFLAGS="$FCFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include"
 
     # Configure
-    ./configure CC=$CC CXX=$CXX FC=$FC MPIFC=$MPIFC \
+    ./configure -C CC=$CC CXX=$CXX FC=$FC MPIFC=$MPIFC \
     CFLAGS="$CFLAGS" FCLAGS="$FCFLAGS" CXX="$CXXFLAGS" \
     $CUDA_WITH CUDA_LIB="$CUDA_LIB" \
     $ASDF_WITH ASDF_LIBS="$ASDF_LIBS" \
@@ -62,7 +68,7 @@ if [ "${FORWARD_TEST}" == "True" ]
 then
 
     # Specfem repository
-    cd specfem3d_globe_forward
+    cd $SPECFEM_DIR
 
     make clean
     make realclean
