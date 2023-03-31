@@ -1,6 +1,6 @@
 #!/bin/env python
 
-from lwsspy.GF.simulation import Simulation
+from gf3d.simulation import Simulation
 import toml
 import os
 
@@ -25,7 +25,13 @@ inputdict['nstep'] = None
 # SIMULATION DIRECTORY CREATION  #
 # Setup
 
-
+inputdict['stationdir'] = os.path.join(
+    WORKFLOW_DIR, '..', 'DB_test', 'II', 'BFO')
+inputdict['network'] = 'II'
+inputdict['station'] = 'BFO'
+inputdict['station_burial'] = 160.0
+inputdict['station_latitude'] = 48.3
+inputdict['station_longitude'] = 8.3
 S = Simulation(**inputdict)
 S.update_forces_and_stations()
 print(S)

@@ -1,5 +1,6 @@
-from lwsspy.GF.simulation import Simulation
-from lwsspy.GF.utils import read_toml
+from gf3d.simulation import Simulation
+from gf3d.utils import read_toml
+from gf3d.postprocess import get_number_of_slices
 # from lwsspy.seismo.
 from copy import deepcopy
 from nnodes import Node
@@ -117,6 +118,7 @@ def processing(node: Node):
     # Args for the mpi script
     # h5file, Nfile, Efile, Zfile, config_file, precision, compression
     h5file = os.path.join(node.stationdir, f'{node.network}.{node.station}.h5')
+
     # DB/II/BFO/N/specfem/OUTPUT_FILES/save_forward_arrays_GF.bp
     filedict = dict()
     for comp in ['N', 'E', 'Z']:
@@ -126,6 +128,9 @@ def processing(node: Node):
     config_file = os.path.join(node.stationdir, 'config.toml')
     precision = node.processparams['precision']
     compression = node.processparams['compression']
+
+    # Get number of slices
+    slices = get_number_of_slices(filedict['N'])
 
     # Getting the command script
     # Should be located in workflow file
@@ -139,7 +144,7 @@ def processing(node: Node):
     print(node.stationdir)
     print(cmd)
 
-    node.add_mpi(cmd, nprocs=3,
+    node.add_mpi(cmd, nprocs=slices,
                  cwd=node.stationdir,
                  name=f'Processing-{node.network}-{node.station}',
                  priority=1, exec_args={Slurm: '-N1 --mem=199GB'})

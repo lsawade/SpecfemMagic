@@ -1,5 +1,5 @@
 #!/bin/env python
-from lwsspy.GF.simulation import Simulation
+from gf3d.simulation import Simulation
 import toml
 import os
 

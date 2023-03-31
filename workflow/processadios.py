@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-from lwsspy.GF.postprocess_mpi import Adios2HDF5
+from scipy.spatial import KDTree
+
+from gf3d.postprocess_mpi import Adios2HDF5
+
 import sys
 from mpi4py.MPI import COMM_WORLD as comm
 
