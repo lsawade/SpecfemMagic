@@ -20,7 +20,7 @@ clear = false
 [root.cfg]
 specfemdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe_reciprocal"
 par_file = "DATA_default/Par_file"
-target_file = "GF_LOCATIONS"
+target_file = "DATA_default/GF_LOCATIONS"
 target_latitude = 35.03
 target_longitude = 26.85
 target_depth = 24.0
@@ -32,11 +32,11 @@ ndt = 4.0
 lpfilter = "butter"
 subsample = true
 force_factor = 10000000000.0
-cmtsolutionfile = "CMTSOLUTION"
+cmtsolutionfile = "DATA_default/CMTSOLUTION"
 broadcast_mesh_model = false
 simultaneous_runs = false
 overwrite = false
-forward_test = false
+forward_test = true
 forwardoutdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS//GLAD-M25/128/specfem3d_globe"
 
 [root.processparams]
