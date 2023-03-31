@@ -1,0 +1,8 @@
+# Station list for the Reciprocal database
+# Sensor information is only kept from the inventory. For most
+# stations all sensors are at the same location.
+#
+# Net.Sta,       Lat,       Lon,      Elev,       Bur, Sensor
+  II.BFO ,   48.3301,    8.3296,  638.0000,  160.0000, Streckeisen STS-1V/VBB Seismometer
+  IU.ANMO,   34.9459, -106.4572, 1700.0000,  150.0000, Geotech KS-54000 Borehole Seismometer
+  IU.HRV ,   42.5064,  -71.5583,  200.0000,    0.0000, Streckeisen STS-1H/VBB Seismometer
