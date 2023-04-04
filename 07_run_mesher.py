@@ -5,16 +5,16 @@ from python.runsf import sfrun
 
 # Current dir
 cwd = os.path.abspath(os.getcwd())
-specfemdir = 'specfem3d_globe'
+specfemdir = os.environ['SPECFEM_RECIPROCAL_DIR']
 
 print("Running the mesher reciprocal...")
 os.chdir(specfemdir)
-sfrun(rtype='m')
+# sfrun(rtype='m')./
 os.chdir(cwd)
 
 
-if os.environ['FORWARD_TEST'] == 'True':
-    specfemdir = 'specfem3d_globe_forward'
+if os.environ['FORWARD'] == 'True':
+    specfemdir = os.environ['SPECFEM_DIR']
 
     os.chdir(specfemdir)
     print("Running the mesher forward test...")

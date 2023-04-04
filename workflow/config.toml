@@ -37,7 +37,7 @@ broadcast_mesh_model = false
 simultaneous_runs = false
 overwrite = false
 forward_test = true
-forwardoutdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS//GLAD-M25/128/specfem3d_globe"
+forwardoutdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe"
 
 [root.processparams]
 precision = "half"

@@ -42,8 +42,8 @@ then
     fi
     PATH_CUDA="$(dirname $(dirname $(which nvcc)))"
     CUDA_LIB="${PATH_CUDA}/lib64"
-    CFLAGS="$CFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include"
-    FCFLAGS="$FCFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include"
+    CFLAGS="$CFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include -lhdf5_hl_fortran"
+    FCFLAGS="$FCFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include -lhdf5_hl_fortran"
 
     # Configure
     ./configure -C CC=$CC CXX=$CXX FC=$FC MPIFC=$MPIFC \
@@ -64,7 +64,7 @@ then
 fi
 
 
-if [ "${FORWARD_TEST}" == "True" ]
+if [ "${FORWARD}" == "True" ]
 then
 
     # Specfem repository
