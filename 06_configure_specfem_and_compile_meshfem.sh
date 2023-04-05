@@ -28,10 +28,10 @@ then
 
     if [ "$ASDF_WITH" == "--with-asdf" ]
     then
-        FC="${HDF5_FC}"
+        FC="${MPIFC}"
         CC="${HDF5_CC}"
-        MPIFC="${HDF5_FC}"
-        MPICC="${HDF5_CC}"
+        # MPIFC="${HDF5_FC}"
+        # MPICC="${HDF5_CC}"
         echo "ASDF enabled."
         echo "MPIFC:____$MPIFC"
         echo "MPICC:____$MPICC"
