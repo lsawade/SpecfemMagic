@@ -2,42 +2,49 @@
 
 import os
 from python.runsf import sfrun, simultaneous_run
+from python.read import read_stations, read_toml
 import toml
 import os
 
 
-sfmagic = "/scratch/gpfs/lsawade/SpecfemMagicGF"
-stationdir = os.path.join(sfmagic, 'DB_test', 'II', 'BFO')
+WORKFLOW_DIR = os.getenv("WORKFLOW_DIR")
+
+if WORKFLOW_DIR is None:
+    raise ValueError('CANT GET WORKFLOW_DIR!')
+
+# Read config file
+root = read_toml(os.path.join(WORKFLOW_DIR, 'config.toml'))['root']
+db = root['db']
+station_file = os.path.join(WORKFLOW_DIR, root['station_file'])
+net, sta, lat, lon, ele, bur, sen = read_stations(station_file)
+
+# Setup
+stationdir = os.path.join(db, net[0], sta[0])
 config = toml.load(os.path.join(stationdir, 'config.toml'))
+
 db = config['stationdir']
 rundirs = dict()
-for comp in ['N', 'E', 'Z']:
+for comp in []: # 'N', 'E', 'Z'
     rundirs[comp] = os.path.join(db, comp, 'specfem')
 
 # Current dir
 cwd = os.path.abspath(os.getcwd())
 
 if os.environ['RECIPROCAL'] == 'True':
-    specfemdir = 'specfem3d_globe'
 
     print("Running the solver reciprocal...")
-    os.chdir(specfemdir)
     print(os.getcwd())
 
-    if simultaneous_run():
-        sfrun(rtype='s')
+    for comp, rundir in rundirs.items():
+        os.chdir(rundir)
+        print(os.getcwd())
+        sfrun(rtype='s', mps=6)
         os.chdir(cwd)
-    else:
-        for comp, rundir in rundirs.items():
-            os.chdir(rundir)
-            print(os.getcwd())
-            sfrun(rtype='s')
-            os.chdir(cwd)
 
-if os.environ['FORWARD_TEST'] == 'True':
-    specfemdir = 'specfem3d_globe_forward'
+if os.environ['FORWARD'] == 'True':
+    specfemdir = os.environ['SPECFEM_DIR']
 
     os.chdir(specfemdir)
     print("Running the solver forward test...")
-    sfrun(rtype='s')
+    sfrun(rtype='s', mps=6)
     os.chdir(cwd)

@@ -1,9 +1,7 @@
-from lwsspy.GF.simulation import Simulation
-from lwsspy.GF.utils import read_toml
-# from lwsspy.seismo.
+from gf3d.simulation import Simulation
+from gf3d.source import CMTSOLUTION
 from copy import deepcopy
 from nnodes import Node
-from nnodes.job import Slurm
 import toml
 import os
 
@@ -39,12 +37,16 @@ def main(node: Node):
     networks, stations, latitudes, longitudes, _, burials, _ = read_stations(
         node.station_file)
 
+    if node.forward_test == True:
+        node.add(forward_test, networks=networks, stations=stations,
+                 latitudes=latitudes, longitudes=longitudes, burials=burials)
+        
     # Add station configuration
     for net, sta, lat, lon, bur in zip(networks, stations, latitudes, longitudes, burials):
 
         # Add workflow for a single station
         node.add(
-            station, concurrent=False,     name=f'{net}.{sta}',
+            station, concurrent=False, name=f'{net}.{sta}',
             network=net,
             station=sta,
             latitude=lat,
@@ -53,7 +55,25 @@ def main(node: Node):
             stationdir=os.path.join(node.db, net, sta),
             workflowdir=os.path.abspath(node.cwd))  # burial is in meters so divide by 1000.0
 
+def forward_test(node: Node):
 
+    cmt = CMTSOLUTION.read(node.cmtsolutionfile)
+    cmt.write(os.path.join(node.forward_specfem, 'DATA', 'CMTSOLUTION'))
+
+    
+    with open(os.path.join(node.forward_specfem, 'DATA', 'STATIONS'), 'w') as f:
+        for net, sta, lat, lon, bur in zip(
+                node.networks, node.stations, node.latitudes, node.longitudes, node.burials):
+            f.write("%-9s %5s %15.4f %12.4f %10.1f %6.1f\n" % (sta, net,lat,lon, 0.0, bur))
+
+        f.write("%-9s %5s %15.4f %12.4f %10.1f %6.1f\n" % (
+            'SRC', 'EQ', cmt.latitude,cmt.longitude, 0.0, cmt.depth*1000))
+
+    node.add_mpi('./bin/xspecfem3D', nprocs=24, gpus_per_proc=1,                                                                                          
+                 cwd=node.forward_specfem,
+                 name=f'forward-test-simulation')  
+
+        
 def station(node: Node):
 
     print(node.network, node.station, node.latitude, node.longitude, node.burial)
@@ -87,6 +107,7 @@ def create_station_dir(node: Node):
     config['station_latitude'] = node.latitude
     config['station_longitude'] = node.longitude
     config['target_file'] = os.path.abspath(config['target_file'])
+    config['par_file'] = os.path.abspath(config['par_file'])
 
     # Setup
     S = Simulation(**config)
@@ -106,10 +127,13 @@ def simulation(node: Node):
 
     for comp in ['N', 'E', 'Z']:
         compsimdir = os.path.join(node.stationdir, comp, 'specfem')
-        node.add_mpi('./bin/xspecfem3D', nprocs=24, gpus_per_proc=4, mps=3,
+
+        print(compsimdir)
+
+        node.add_mpi('./bin/xspecfem3D', nprocs=24, gpus_per_proc=1,
                      cwd=compsimdir,
-                     name=f'sim-{node.network}.{node.station}.{comp}',
-                     exec_args={Slurm: '-N2 --exclusive'})
+                     name=f'sim-{node.network}.{node.station}.{comp}')
+
 
 
 def processing(node: Node):
@@ -139,10 +163,10 @@ def processing(node: Node):
     print(node.stationdir)
     print(cmd)
 
-    node.add_mpi(cmd, nprocs=3,
+    node.add_mpi(cmd, nprocs=1, cpus_per_proc=5,
                  cwd=node.stationdir,
                  name=f'Processing-{node.network}-{node.station}',
-                 priority=1, exec_args={Slurm: '-N1 --mem=199GB'})
+                 priority=1)
 
 
 def clear(node: Node):
@@ -153,8 +177,7 @@ def clear(node: Node):
         if os.path.exists(sdir):
             node.add_mpi(
                 f'rm -rf {sdir}', nprocs=1, priority=2,
-                name=f'process-{node.network}.{node.station}',
-                exec_args={Slurm: '-N1'})
+                name=f'process-{node.network}.{node.station}')
 
 
 def read_stations(stations_file):

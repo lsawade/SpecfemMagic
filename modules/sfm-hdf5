@@ -22,7 +22,6 @@ set HDF5_BUILD_DIR "${HDF5MAINDIR}/build"
 set HDF5DIR "${HDF5MAINDIR}/build/install"
 
 
-
 setenv HDF5_MAINDIR $HDF5MAINDIR
 setenv HDF5_DIR $HDF5DIR
 setenv HDF5_ROOT "${HDF5DIR}"

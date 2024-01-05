@@ -97,7 +97,7 @@ if {[string equal $COMPILER "IBM"]} {
     set MPIFC mpif90
 
 } elseif {[string equal $COMPILER "GNU"]} {
-     # C/C++ compiler
+    # C/C++ compiler
     set CC gcc
     set CXX g++
     set MPICC mpicc

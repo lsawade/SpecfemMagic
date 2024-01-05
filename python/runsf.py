@@ -28,7 +28,7 @@ def simultaneous_run() -> bool:
         return False
 
 
-def sfrun(rtype: str = 's'):
+def sfrun(rtype: str = 's', mps: int | None = None):
     """
     rtype: m: mesh, s: spec
     """
@@ -54,7 +54,15 @@ def sfrun(rtype: str = 's'):
             check_call(f'srun -n {nprocs} bin/xspecfem3D', shell=True)
 
     if "batch" in HOSTNAME:
+
+        if mps is not None:
+            r = mps
+            n = int(nprocs/r)
+            g = 1
+        else:
+            r, n, g = nprocs, 1, 1
+
         if rtype == 'm':
             check_call(f'jsrun -n {nprocs} bin/xmeshfem3D', shell=True)
         if rtype == "s":
-            check_call(f'jsrun -n {nprocs} -g 1 bin/xspecfem3D', shell=True)
+            check_call(f'jsrun -n {r} -a {n} -c {n} -g {g} bin/xspecfem3D', shell=True)

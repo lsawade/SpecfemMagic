@@ -3,11 +3,7 @@
 from gf3d.simulation import Simulation
 import toml
 import os
-from python.read import read_stations
-
-
-def read_toml(file) -> dict:
-    return toml.load(file)
+from python.read import read_stations, read_toml
 
 
 WORKFLOW_DIR = os.getenv("WORKFLOW_DIR")
@@ -33,10 +29,19 @@ net, sta, lat, lon, ele, bur, sen = read_stations(station_file)
 # Setup
 db = root['db']
 stationdir = os.path.join(db, net[0], sta[0])
+inputdict['network'] = net[0]
+inputdict['station'] = sta[0]
 inputdict['stationdir'] = stationdir
-
+inputdict['station_latitude'] = lat[0]
+inputdict['station_longitude'] = lon[0]
+inputdict['station_burial'] = bur[0]
 ###################################
 # SIMULATION DIRECTORY CREATION  #
 S = Simulation(**inputdict)
+S.create()
 S.update_forces_and_stations()
 print(S)
+
+# dump config
+with open(os.path.join(stationdir, 'config.toml'), 'w') as f:
+    toml.dump(inputdict, f)

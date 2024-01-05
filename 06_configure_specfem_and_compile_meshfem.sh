@@ -29,7 +29,7 @@ then
     if [ "$ASDF_WITH" == "--with-asdf" ]
     then
         FC="${MPIFC}"
-        CC="${HDF5_CC}"
+        CC="${MPICC}"
         # MPIFC="${HDF5_FC}"
         # MPICC="${HDF5_CC}"
         echo "ASDF enabled."
@@ -42,8 +42,8 @@ then
     fi
     PATH_CUDA="$(dirname $(dirname $(which nvcc)))"
     CUDA_LIB="${PATH_CUDA}/lib64"
-    CFLAGS="$CFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include -lhdf5_hl_fortran"
-    FCFLAGS="$FCFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include -lhdf5_hl_fortran"
+    CFLAGS="$CFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include -lhdf5_hl -lhdf5 "
+    FCFLAGS="$FCFLAGS -L ${HDF5_ROOT}/lib -I ${HDF5_ROOT}/include -lhdf5_hl_fortran -lhdf5_fortran"
 
     # Configure
     ./configure -C CC=$CC CXX=$CXX FC=$FC MPIFC=$MPIFC \

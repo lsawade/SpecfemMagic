@@ -22,5 +22,5 @@ inputdict = read_toml(
 # Setup
 
 S = Simulation(**inputdict)
-print(S)
+S.create()
 S.create_specfem()

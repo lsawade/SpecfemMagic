@@ -1,26 +1,29 @@
 [job]
-system = [ "nnodes.job", "Traverse",]
+system = [ "nnodes.job", "Summit",]
 name = "Database maker"
-nnodes = 2
+nnodes = 48
 account = "GEO111"
-walltime = 180.0
-gap = 50.0
-debug = true
+walltime = 120.0
+gap = 25.0
+debug = false
 
 [root]
 task = [ "workflow", "main",]
 workflowname = "Making a database right now, yeaah!"
-db = "/gpfs/alpine/geo111/scratch/lsawade/DB/GLAD-M25/128/"
-station_file = "stations_BFO.txt"
-creation = false
-simulation = false
+db = "/gpfs/alpine/geo111/scratch/lsawade/DB/GLAD-M25/128_single_test/"
+station_file = "stations_test.txt"
+creation = true
+simulation = true
 processing = true
 clear = false
+forward_test = false
+cmtsolutionfile = "../DATA_default/CMTSOLUTION"
+forward_specfem = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe"
 
 [root.cfg]
 specfemdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe_reciprocal"
 par_file = "../DATA_default/Par_file"
-target_file = "../DATA_default/GF_LOCATIONS"
+target_file = "GF_LOCATIONS_ALASKA"
 target_latitude = 35.03
 target_longitude = 26.85
 target_depth = 24.0
@@ -31,14 +34,14 @@ duration_in_min = 240.0
 ndt = 4.0
 lpfilter = "butter"
 subsample = true
-force_factor = 10000000000.0
+force_factor = 100000000000000.0
 cmtsolutionfile = "../DATA_default/CMTSOLUTION"
 broadcast_mesh_model = false
 simultaneous_runs = false
 overwrite = false
-forward_test = true
+forward_test = false
 forwardoutdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe"
 
 [root.processparams]
-precision = "half"
+precision = "single"
 compression = "None"
