@@ -17,6 +17,7 @@ fi
 
 if [ "${FORWARD}" == "True" ]
 then
+
     echo "Syncing the source code"
     echo "------------------------------------------------------"
     rsync -av specfem3d_globe/src/ specfem3d_globe_forward/src

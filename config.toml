@@ -1,0 +1,45 @@
+
+# Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
+# gfortran     ifort         effect
+# ------------------------------------------------------
+# -g           -g            Stores the code inside the binary
+# -O0          -O0           Disables optimisation
+# -fbacktrace  -traceback    More informative stack trace
+# -Wall        -warn all     Enable all compile time warnings
+# -fcheck=all  -check all    Enable run time checks
+
+
+# ; CFLAGS=""
+# ; CXXFLAGS="" # -std=c++11
+# ; FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
+
+[MAIN]
+MODULE_PATH="/ccs/home/lsawade/Modules/modulefiles"
+PACKAGE_DIR="/lustre/orion/geo111/scratch/lsawade/packages"
+
+[SPECFEM]
+FORWARD=true
+RECIPROCAL=true
+VERSION="8.0"
+TAG="GLAD-M25-128x128"
+LINK="git@github.com:SPECFEM/specfem3d_globe.git"
+BRANCH="devel"
+RECIPROCAL_EXTERNAL_STF=true
+ASDF=false
+ADIOS=true
+GPU='HIP'
+
+# CUDA: cuda<#> HIP: MI<XXX>
+GPU_VERSION='MI250'
+
+# Depending on GPU, sets HIPFLAGS or CUDAFLAGS
+GPU_FLAGS='--amdgpu-target=gfx90a -fPIC -ftemplate-depth-2048 -O3 -fdenormal-fp-math=ieee -fcuda-flush-denormals-to-zero -munsafe-fp-atomics -fno-gpu-rdc'
+
+# Use this to Update any parameter for the forward par_file parameters
+[SPECFEM.Par_file.FORWARD]
+
+
+
+# Use this to Update any parameter for the reciprocal par_file parameters
+[SPECFEM.Par_file.RECIPROCAL]
+

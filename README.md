@@ -1,7 +1,54 @@
 # SpecfemMagic
 
+1. Load modules from SFMODULES or set ENVs manually (see below)
+2. python scripts/mk_modules.py
+3. module load sf3dgf sf3dgr # (set version/tag if you have multiple sf versions)
+4. python scripts/download.py
+5. python scripts/setup.py
+6. python scripts/configure.py
+7. python scripts/compile.py
+8. python scripts/run.py
+
+Redownload specfem
+
+```bash
+rm -rf $SF3DGR $SF3DGF
+```
+
+Move/cp specfem
+
+```bash
+# Store location
+tmpSFF=$SF3DGF
+tmpSFR=$SF3DGR
+
+# Make changes to config file
+python scripts/mk_modules
+
+# Load modules
+module load sf3dgf/<version>-<tag> sf3dgr/<version>-<tag>
+
+# Copy old to new
+cp -r $tmpSFF $SF3DGF
+cp -r $tmpSFR $SF3DGR
+
+# Reconfigure
+python scripts/configure.py
+
+...
+```
+
 This repo contains a bunch of scripts that download, configure, and compile
 specfem as well as specfem for the generation of a Green function database.
+
+It will expect you to set a set of environment variables and/or you can
+let `SFMODULES`` do that. `SFMODULES` will also install dependencies, such as
+`HDF5` and `ADIOS`, and it will let you load the modules that set all relevant
+variables using
+```bash
+module load core-personal hdf5-personal adios2-personal
+```
+
 
 It differs slightly from `main` in the sense that `main` is really aimed towards
 the compilation, and forward modelling of specfem and not for the reciprocal
