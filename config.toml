@@ -1,18 +1,3 @@
-
-# Compiler flags the CFLAG "-std=c++11" avoids the '''error: identifier "__ieee128" is undefined'''
-# gfortran     ifort         effect
-# ------------------------------------------------------
-# -g           -g            Stores the code inside the binary
-# -O0          -O0           Disables optimisation
-# -fbacktrace  -traceback    More informative stack trace
-# -Wall        -warn all     Enable all compile time warnings
-# -fcheck=all  -check all    Enable run time checks
-
-
-# ; CFLAGS=""
-# ; CXXFLAGS="" # -std=c++11
-# ; FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
-
 [MAIN]
 MODULE_PATH="/ccs/home/lsawade/Modules/modulefiles"
 PACKAGE_DIR="/lustre/orion/geo111/scratch/lsawade/packages"
@@ -21,15 +6,21 @@ PACKAGE_DIR="/lustre/orion/geo111/scratch/lsawade/packages"
 FORWARD=true
 RECIPROCAL=true
 VERSION="8.0"
-TAG="GLAD-M25-128x128"
-LINK="git@github.com:SPECFEM/specfem3d_globe.git"
-BRANCH="devel"
+TAG="GLAD-M35-256x256"
+LINK="git@github.com:lsawade/specfem3d_globe.git"
+BRANCH="GF"
 RECIPROCAL_EXTERNAL_STF=true
 ASDF=false
 ADIOS=true
 GPU='HIP'
+Par_file_location='' # Par_file to use for the run. If empty, will use DATA_default/Par_file
 
-# CUDA: cuda<#> HIP: MI<XXX>
+# IF THE PAR_FILES model paramater is set to 'GLL', then the model_gll_location will
+# copy the given model to the directory and use it for the compilation.
+# If empty or model is not GLL it is ignored.
+model_gll_location='/lustre/orion/proj-shared/geo111/models2/m35.bp' # Keep empty if you
+
+# CUDA: cuda<#> | HIP: MI<XXX>
 GPU_VERSION='MI250'
 
 # Depending on GPU, sets HIPFLAGS or CUDAFLAGS
@@ -37,9 +28,26 @@ GPU_FLAGS='--amdgpu-target=gfx90a -fPIC -ftemplate-depth-2048 -O3 -fdenormal-fp-
 
 # Use this to Update any parameter for the forward par_file parameters
 [SPECFEM.Par_file.FORWARD]
-
-
+MODEL='GLL'
 
 # Use this to Update any parameter for the reciprocal par_file parameters
 [SPECFEM.Par_file.RECIPROCAL]
+MODEL='GLL'
 
+# Use this to set the necessary environment variables for setup and compilation
+# Empty if not needed to be set.
+[ENV]
+SF3DGF=''
+SF3DGR=''
+CC=''
+CXX=''
+MPICC=''
+MPICXX=''
+FC=''
+MPIFC=''
+CFLAGS=''
+CXXFLAGS=''
+FCFLAGS=''
+ADIOS_VERSION=''
+ADIOS_INSTALL=''
+HDF5_ROOT=''

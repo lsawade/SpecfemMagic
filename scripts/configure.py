@@ -45,8 +45,24 @@ def configure():
 
     # ADIOS
     if adios:
-        adios_version = os.environ['ADIOS_VERSION']
-        adios_install = os.environ['ADIOS_INSTALL']
+        try:
+            adios_version = os.environ['ADIOS_VERSION']
+            adios_install = os.environ['ADIOS_INSTALL']
+        except:
+            print('Couldnt find parameters used in personal installation of ADIOS.')
+            print('Trying to find adios-config/adios2-config in PATH.')
+            import shutil
+
+            if (path_to_adios_config := shutil.which('adios-config')) is not None:
+                adios_version = '1'
+                adios_install = os.path.dirname(os.path.dirname(path_to_adios_config))
+            elif (path_to_adios_config := shutil.which('adios2-config')) is not None:
+                adios_version = '2'
+                adios_install = os.path.dirname(os.path.dirname(path_to_adios_config))
+            else:
+                raise ValueError("ADIOS is enabled but adios-config/adios2-config is not in your PATH.\n"
+                                 "Need adios-config/adios2-config to compile with ADIOS.")
+
         if int(adios_version[0]) == 1:
             adios_with = '--with-adios'
             adios_config = os.path.join(adios_install, 'bin', 'adios-config')
@@ -56,10 +72,9 @@ def configure():
         else:
             raise ValueError("ADIOS version must be either 1 or 2.")
 
-
-
         # Combine the ADIOS configuration
         adios_conf = f'{adios_with} ADIOS_CONFIG="{adios_config}"'
+
     else:
         adios_conf = ''
 
@@ -77,6 +92,7 @@ def configure():
 
         # Combine the ASDF configuration
         asdf_conf = f'{asdf_with} ASDF_LIBS="{asdf_lib}"'
+
     else:
         asdf_conf = ''
 
@@ -188,7 +204,7 @@ def configure_sf_dir(sf_dir, confcmd):
     subprocess.run(f'cd {sf_dir} && {confcmd}', shell=True, check=True)
 
     # Make
-    subprocess.run(f'cd {sf_dir} && make -j 10 meshfem3D', shell=True, check=True)
+    subprocess.run(f'cd {sf_dir} && make meshfem3D', shell=True, check=True)
 
 
 

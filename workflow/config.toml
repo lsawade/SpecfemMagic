@@ -1,7 +1,7 @@
 [job]
-system = [ "nnodes.job", "Summit",]
+system = [ "nnodes.job", "Frontier",]
 name = "Database maker"
-nnodes = 48
+nnodes = 12
 account = "GEO111"
 walltime = 120.0
 gap = 25.0
@@ -10,20 +10,20 @@ debug = false
 [root]
 task = [ "workflow", "main",]
 workflowname = "Making a database right now, yeaah!"
-db = "/gpfs/alpine/geo111/scratch/lsawade/DB/GLAD-M25/128_single_test/"
-station_file = "stations_test.txt"
+db = "/lustre/orion/geo111/scratch/lsawade/DB/GLAD-M35/256_TEST"
+station_file = "stations_BFO.txt"
 creation = true
 simulation = true
 processing = true
 clear = false
-forward_test = false
+forward_test = true
 cmtsolutionfile = "../DATA_default/CMTSOLUTION"
-forward_specfem = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe"
+forward_specfem = "/lustre/orion/geo111/scratch/lsawade/packages/sf3dgf/8.0/GLAD-M35-256x256"
 
 [root.cfg]
-specfemdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe_reciprocal"
+specfemdir = "/lustre/orion/geo111/scratch/lsawade/packages/sf3dgr/8.0/GLAD-M35-256x256"
 par_file = "../DATA_default/Par_file"
-target_file = "GF_LOCATIONS_ALASKA"
+target_file = "../DATA_default/GF_LOCATIONS_FULL_GCMT_CATALOG"
 target_latitude = 35.03
 target_longitude = 26.85
 target_depth = 24.0
@@ -40,7 +40,7 @@ broadcast_mesh_model = false
 simultaneous_runs = false
 overwrite = false
 forward_test = false
-forwardoutdir = "/gpfs/alpine/geo111/scratch/lsawade/RECIPROCAL_SPECFEMS/GLAD-M25/128/specfem3d_globe"
+# forwardoutdir = null
 
 [root.processparams]
 precision = "single"

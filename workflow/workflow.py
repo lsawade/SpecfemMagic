@@ -40,7 +40,7 @@ def main(node: Node):
     if node.forward_test == True:
         node.add(forward_test, networks=networks, stations=stations,
                  latitudes=latitudes, longitudes=longitudes, burials=burials)
-        
+
     # Add station configuration
     for net, sta, lat, lon, bur in zip(networks, stations, latitudes, longitudes, burials):
 
@@ -60,7 +60,7 @@ def forward_test(node: Node):
     cmt = CMTSOLUTION.read(node.cmtsolutionfile)
     cmt.write(os.path.join(node.forward_specfem, 'DATA', 'CMTSOLUTION'))
 
-    
+
     with open(os.path.join(node.forward_specfem, 'DATA', 'STATIONS'), 'w') as f:
         for net, sta, lat, lon, bur in zip(
                 node.networks, node.stations, node.latitudes, node.longitudes, node.burials):
@@ -69,14 +69,12 @@ def forward_test(node: Node):
         f.write("%-9s %5s %15.4f %12.4f %10.1f %6.1f\n" % (
             'SRC', 'EQ', cmt.latitude,cmt.longitude, 0.0, cmt.depth*1000))
 
-    node.add_mpi('./bin/xspecfem3D', nprocs=24, gpus_per_proc=1,                                                                                          
+    node.add_mpi('./bin/xspecfem3D', nprocs=96, gpus_per_proc=1,
                  cwd=node.forward_specfem,
-                 name=f'forward-test-simulation')  
+                 name=f'forward-test-simulation')
 
-        
+
 def station(node: Node):
-
-    print(node.network, node.station, node.latitude, node.longitude, node.burial)
 
     # Create station directory in the database.
     if node.creation:
@@ -130,8 +128,8 @@ def simulation(node: Node):
 
         print(compsimdir)
 
-        node.add_mpi('./bin/xspecfem3D', nprocs=24, gpus_per_proc=1,
-                     cwd=compsimdir,
+        node.add_mpi('./bin/xspecfem3D', nprocs=384, gpus_per_proc=1,
+                     cwd=compsimdir, mps = 6,
                      name=f'sim-{node.network}.{node.station}.{comp}')
 
 
@@ -141,7 +139,7 @@ def processing(node: Node):
     # Args for the mpi script
     # h5file, Nfile, Efile, Zfile, config_file, precision, compression
     h5file = os.path.join(node.stationdir, f'{node.network}.{node.station}.h5')
-    # DB/II/BFO/N/specfem/OUTPUT_FILES/save_forward_arrays_GF.bp
+
     filedict = dict()
     for comp in ['N', 'E', 'Z']:
         filedict[comp] = os.path.join(node.stationdir, comp, 'specfem',
@@ -163,7 +161,7 @@ def processing(node: Node):
     print(node.stationdir)
     print(cmd)
 
-    node.add_mpi(cmd, nprocs=1, cpus_per_proc=5,
+    node.add_mpi(cmd, nprocs=96, cpus_per_proc=1,
                  cwd=node.stationdir,
                  name=f'Processing-{node.network}-{node.station}',
                  priority=1)

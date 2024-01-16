@@ -7,9 +7,10 @@
 5. python scripts/setup.py
 6. python scripts/configure.py
 7. python scripts/compile.py
-8. python scripts/run.py
+8. python scripts/sf.py -- Run CLI
 
-Redownload specfem
+
+## Redownload specfem
 
 ```bash
 rm -rf $SF3DGR $SF3DGF
@@ -48,6 +49,8 @@ variables using
 ```bash
 module load core-personal hdf5-personal adios2-personal
 ```
+
+If you don't want to set those you
 
 
 It differs slightly from `main` in the sense that `main` is really aimed towards

@@ -21,6 +21,28 @@ cfg = toml.load(configfile)['SPECFEM']
 fwd_parfile_update = cfg['Par_file']['FORWARD']
 rec_parfile_update = cfg['Par_file']['RECIPROCAL']
 
+
+def set_model_vars(pardict: dict, cfg: dict, sf_dir: str):
+
+    # Check if model is set to 'GLL'
+    if pardict['MODEL'] != 'GLL':
+        return
+
+    # IF the model is GLL check whether a model should be copied to the
+    # specfem directory
+    if cfg['model_gll_location'] is None or cfg['model_gll_location'] == '':
+        return
+
+    # If path is defined, make sure to check whether GLL directory exists
+    glldir = os.path.join(sf_dir, 'DATA', 'GLL')
+    if not os.path.exists(glldir):
+        os.makedirs(glldir)
+
+    # Copy model to GLL directory
+    import subprocess
+    gllfile = os.path.join(glldir, 'model_gll.bp')
+    subprocess.run(f"cp -r {cfg['model_gll_location']} {gllfile}", shell=True, check=True)
+
 def set_gpu_vars(pardict: dict, cfg: dict):
 
     # GPU settings
@@ -32,6 +54,7 @@ def set_gpu_vars(pardict: dict, cfg: dict):
         pardict['GPU_RUNTIME'] = 1
         pardict['GPU_PLATFORM'] = 'NVIDIA'
         pardict['GPU_DEVICE'] = '*'
+
     elif cfg['GPU'] == 'HIP':
         pardict['GPU_MODE'] = True
         pardict['GPU_RUNTIME'] = 3
@@ -62,13 +85,22 @@ def forward():
     sf_dir = os.environ['SF3DGF']
 
     # Par_file locations
-    in_parfile = os.path.join(DATA_default, 'Par_file')
+    if cfg['Par_file_location'] != '':
+        in_parfile = cfg['Par_file_location']
+    else:
+        in_parfile = os.path.join(DATA_default, 'Par_file')
+
     outparfile = os.path.join(sf_dir, 'DATA', 'Par_file')
     pardict = utils.read_par_file(in_parfile, verbose=False, savecomments=True)
 
     # Set parameters
     for key, value in fwd_parfile_update.items():
+        if key == 'skip':
+            continue
         pardict[key] = value
+
+    # Set up model
+    set_model_vars(pardict, cfg, sf_dir)
 
     # ADIOS
     set_adios_vars(pardict, cfg)
@@ -89,13 +121,28 @@ def reciprocal():
     sf_dir = os.environ['SF3DGR']
 
     # Par_file locations
-    in_parfile = os.path.join(DATA_default, 'Par_file')
+    if cfg['Par_file_location'] != '':
+        in_parfile = cfg['Par_file_location']
+    else:
+        in_parfile = os.path.join(DATA_default, 'Par_file')
+
     outparfile = os.path.join(sf_dir, 'DATA', 'Par_file')
     pardict = utils.read_par_file(in_parfile, verbose=False, savecomments=True)
 
     # Set parameters
     for key, value in rec_parfile_update.items():
+        if key == 'skip':
+            continue
         pardict[key] = value
+
+    # Set up model
+    set_model_vars(pardict, cfg, sf_dir)
+
+    # ADIOS
+    set_adios_vars(pardict, cfg)
+
+    # GPU settings
+    set_gpu_vars(pardict, cfg)
 
     # Write Par_file
     utils.write_par_file(pardict, outparfile)

@@ -1,7 +1,7 @@
 #!/bin/env python
 
 import os
-from subprocess import check_call
+from subprocess import check_call, run
 
 
 def simultaneous_run() -> bool:
@@ -47,11 +47,23 @@ def sfrun(rtype: str = 's', mps: int | None = None):
 
                     nprocs *= int(val)
 
+    print(f"HOSTNAME: {HOSTNAME}")
+    print(f"Number of processors: {nprocs}")
+
     if "traverse" in HOSTNAME:
         if rtype == 'm':
-            check_call(f'srun -n {nprocs} bin/xmeshfem3D', shell=True)
+            run(f'srun -n {nprocs} bin/xmeshfem3D', shell=True, check=True)
         if rtype == 's':
-            check_call(f'srun -n {nprocs} bin/xspecfem3D', shell=True)
+            run(f'srun -n {nprocs} bin/xspecfem3D', shell=True, check=True)
+
+    if 'frontier' in HOSTNAME or 'login' in HOSTNAME:
+
+        print(HOSTNAME)
+
+        if rtype == 'm':
+            run(f'srun -n {nprocs} bin/xmeshfem3D', shell=True, check=True)
+        if rtype == 's':
+            run(f'srun -n {nprocs} --gpus-per-task=1 --gpu-bind=closest bin/xspecfem3D', shell=True, check=True)
 
     if "batch" in HOSTNAME:
 
@@ -63,6 +75,33 @@ def sfrun(rtype: str = 's', mps: int | None = None):
             r, n, g = nprocs, 1, 1
 
         if rtype == 'm':
-            check_call(f'jsrun -n {nprocs} bin/xmeshfem3D', shell=True)
+            run(f'jsrun -n {nprocs} bin/xmeshfem3D', shell=True, check=True)
         if rtype == "s":
-            check_call(f'jsrun -n {r} -a {n} -c {n} -g {g} bin/xspecfem3D', shell=True)
+            run(f'jsrun -n {r} -a {n} -c {n} -g {g} bin/xspecfem3D', shell=True, check=True)
+
+
+
+if __name__ == '__main__':
+
+    import os,sys
+
+    # Get currentdir
+    curr_dir = os.getcwd()
+
+
+    # Get Specfem dir from command line
+    sfdir = sys.argv[1]
+
+    # Go to specfemdir
+    os.chdir(sfdir)
+    print(f"Enter: {sfdir}")
+
+    # Get sim type m, or s
+    simtype = sys.argv[2]
+
+    # Run
+    sfrun(rtype=simtype)
+
+    # Return to original dir
+    os.chdir(curr_dir)
+    print(f"Going back to: {sfdir}")
