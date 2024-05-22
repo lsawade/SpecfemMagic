@@ -33,12 +33,13 @@ else
     echo "MPICC:____$MPICC"
 fi
 
-# Configure
+# Configure --enable-debug
 ./configure CC=$CC CXX=$CXX FC=$FC MPIFC=$MPIFC \
 CFLAGS="$CFLAGS" FCLAGS="$FCFLAGS" \
 $CUDA_WITH CUDA_LIB="$CUDA_LIB" \
 $ASDF_WITH ASDF_LIBS="$ASDF_LIBS" \
-$ADIOS_WITH ADIOS_CONFIG="$ADIOS_CONFIG"
+$ADIOS_WITH ADIOS_CONFIG="$ADIOS_CONFIG" \
+${EMC_WITH} ${NETCDF_WITH} NETCDF_LIBS="'${NETCDF_LIBS}'" NETCDF_INC=${NETCDF_INC}
 
 # checks exit code
 if [[ $? -ne 0 ]]; then echo ERRREREOROROEOREORORO && exit 1; fi
@@ -46,10 +47,10 @@ if [[ $? -ne 0 ]]; then echo ERRREREOROROEOREORORO && exit 1; fi
 # Compilation
 mpif90 -v
 
-ini='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions'
-new='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions -fbacktrace -O0 -Wall -fcheck=all'
-sed -i "s/.*${ini}.*/$new/g" Makefile
+# ini='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions'
+# new='FLAGS_CHECK = -std=gnu -fimplicit-none -fmax-errors=10 -pedantic -pedantic-errors -Waliasing -Wampersand -Wcharacter-truncation -Wline-truncation -Wsurprising -Wno-tabs -Wunderflow -ffpe-trap=invalid,zero,overflow -Wunused -O3 -finline-functions -fbacktrace -O0 -Wall -fcheck=all'
+# sed -i "s/.*${ini}.*/$new/g" Makefile
 
-make -j meshfem3D
+make -j 16 meshfem3D
 cd ..
 

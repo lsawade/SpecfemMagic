@@ -6,6 +6,9 @@
 
 # module load pgi/17.9/64
 # module load openmpi/pgi-19.9/4.0.3rc1/64
+
+EMC_WITH="--with-emc"
+
 if [[ $HOSTNAME == *"rhea"* ]]; then
     
     module purge
@@ -18,15 +21,36 @@ elif [[ $HOSTNAME == *"login"* ]] || [[ $HOSTNAME == *"batch"* ]]; then
     module load xl spectrum-mpi cuda cmake boost
     # NVIDIA Tesla V100 
     CUDA_WITH="--with-cuda=cuda8"
+
+# Traverse and EMC that is compile with netcdf
+elif [[ ( $HOSTNAME == *"traverse"* ) && ( $EMC_WITH == "--with-emc" ) ]]; then
     
+    module purge
+    module load anaconda3
+    module load gcc-toolset/10
+    module load openmpi/gcc/4.1.1/64
+    module load hdf5/gcc/1.10.6 netcdf/gcc/hdf5-1.10.6/4.7.3
+    module load cudatoolkit/11.1
+    
+    # NVIDIA Tesla V100 
+    CUDA_WITH="--with-cuda=cuda9"
+
+    # NETCDF SETUP
+    NETCDF_WITH="--with-netcdf"
+    NETCDF_INC="${NETCDFDIR}/include"
+    NETCDF_LIBS="-L${NETCDFDIR}/lib"
+    FCFLAGS="-lnetcdff ${FCFLAGS}"
+    
+# Only traverse
 elif [[ $HOSTNAME == *"traverse"* ]]; then
     
     module purge
     module load anaconda3
-    module load openmpi/gcc cudatoolkit
+    module load openmpi/gcc
+    module load cudatoolkit
     conda activate gf
     # NVIDIA Tesla V100 
-    CUDA_WITH="" #"--with-cuda=cuda9"
+    CUDA_WITH="--with-cuda=cuda9"
     
 elif [[ $HOSTNAME == *"tiger"* ]]; then
     
@@ -35,15 +59,34 @@ elif [[ $HOSTNAME == *"tiger"* ]]; then
 
     # NVIDIA P100
     CUDA_WITH="--with-cuda=cuda8"
+
+
+# DELLA and EMC that is compile with netcdf
+elif [[ ( $HOSTNAME == *"della-gpu"* ) && ( $EMC_WITH == "--with-emc" ) ]]; then
+    
+    module purge
+    #module load anaconda3/2021.11
+    module load gcc/8 openmpi/gcc/4.1.2 cudatoolkit/11.7
+    module load hdf5/gcc/1.10.6 netcdf/gcc/hdf5-1.10.6/4.7.4
+    
+    # NVIDIA Ampere A100 
+    CUDA_WITH="--with-cuda=cuda11"
+
+    # NETCDF SETUP
+    NETCDF_WITH="--with-netcdf"
+    NETCDF_INC="${NETCDFDIR}/include"
+    NETCDF_LIBS="-L${NETCDFDIR}/lib"
+    FCFLAGS="-lnetcdff ${FCFLAGS}"
     
 elif [[ $HOSTNAME == *"della-gpu"* ]]; then
 
     module purge
     module load anaconda3/2021.11
-    module load gcc/8 openmpi/gcc/4.1.2 cudatoolkit/11.7
+    
     conda activate gf
     # NVIDIA A100E 
     CUDA_WITH="--with-cuda=cuda11"
+ 
     
 else
     echo "HOST: ${HOSTNAME} not recognized."
@@ -91,7 +134,8 @@ MPIFC=mpif90
 
 
 CFLAGS=""
-FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
+#FCFLAGS="-g -O0 -fbacktrace -Wall -fcheck=all"
+FCFLAGS="${FCFLAGS} -g -O0 -fbacktrace"
 
 # CUDA (here CUDA 5 because my GPU cannot support more, poor boy)
 
@@ -117,7 +161,7 @@ ASDF_WITH="" #--with-asdf"
 ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
 
 # ADIOS
-ADIOS_VERSION="1"
+ADIOS_VERSION="2"
 
 ADIOS_BUILD="${PACKAGES}/adios-build"
 ADIOS_INSTALL="${PACKAGES}/adios-install"

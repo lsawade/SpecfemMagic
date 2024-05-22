@@ -25,8 +25,9 @@ else
     cd $ADIOS_DIR
     mkdir $ADIOS_BUILD
     mkdir build
+    
     cd build
-    ../configure CC=$CC CXX=$CXX FC=$FC  CFLAGS="$CFLAGS" --prefix="$ADIOS_INSTALL"
+    ../configure CC=$CC CXX=$CXX FC=$FC  CFLAGS="$CFLAGS" FCFLAGS="-I$(dirname $(dirname $(which mpif90)))/include" --prefix="$ADIOS_INSTALL"
     make -j
     make install
 fi
