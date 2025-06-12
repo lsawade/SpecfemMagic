@@ -7,19 +7,32 @@ appropriate options.
 
 """
 
-import os
+import os,sys
 import toml
 import asyncio
 import subprocess
 
 
 GFMAGIC_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-DATA_default = os.path.join(GFMAGIC_DIR, 'DATA_default')
+
 
 # Get common valus from config
-configfile = os.path.join(GFMAGIC_DIR, 'config.toml')
-cfg = toml.load(configfile)['SPECFEM']
+# Get common valus from config
+if len(sys.argv) > 1:
+    configfile = sys.argv[1]
+    # cfg = toml.load(configfile)['SPECFEM']
+else:
+    configfile = os.path.join(GFMAGIC_DIR, 'config.toml')
+    # cfg = toml.load(configfile)['SPECFEM']
 
+cfg = toml.load(configfile)['SPECFEM']
+env = toml.load(configfile)['ENV']
+
+# Get defaults DATA
+if 'DATA_default' in cfg:
+    DATA_default = cfg['DATA_default']
+else:
+    DATA_default = os.path.join(GFMAGIC_DIR, 'DATA_default')
 
 def configure():
 
@@ -39,9 +52,10 @@ def configure():
     mpifc = os.environ['MPIFC']
 
     # FLAGS
-    cflags = os.environ.get('CFLAGS') or ''
-    cxxflags = os.environ.get('CXXFLAGS') or ''
-    fcflags = os.environ.get('FCFLAGS') or ''
+    cflags = env['CFLAGS']
+    cxxflags = env['CXXFLAGS']
+    fcflags = env['FCFLAGS']
+
 
     # ADIOS
     if adios:
@@ -146,11 +160,13 @@ def configure():
     # Configure
     confcmd = ""
     confcmd += f"./configure -C CC={cc} CXX={cxx} FC={fc} MPIFC={mpifc} "
-    confcmd += f'CFLAGS="{cflags}" FCLAGS="{fcflags}" CXX="{cxxflags}" '
+    confcmd += f'FLAGS_CHECK="{cflags}" FCLAGS="{fcflags}" CXX="{cxxflags}" '
     confcmd += f'{gpu_conf} '
     confcmd += f'{asdf_conf} '
     confcmd += f'{adios_conf} '
 
+    print("CONFIGURE COMMAND: ", confcmd)
+    
     # Run configuration for forward
     forward(confcmd)
 
@@ -195,6 +211,7 @@ def configure_sf_dir(sf_dir, confcmd):
     # Make the directory clean. Try because the Makefile is made by configure,
     # so it might not exist yet.
     try:
+        subprocess.run(f'cd {sf_dir} && rm -f config.cache', shell=True, check=True)
         subprocess.run(f'cd {sf_dir} && make clean', shell=True, check=True)
         subprocess.run(f'cd {sf_dir} && make realclean', shell=True, check=True)
     except:
@@ -204,8 +221,7 @@ def configure_sf_dir(sf_dir, confcmd):
     subprocess.run(f'cd {sf_dir} && {confcmd}', shell=True, check=True)
 
     # Make
-    subprocess.run(f'cd {sf_dir} && make meshfem3D', shell=True, check=True)
-
+    subprocess.run(f'cd {sf_dir} && make -j 10 meshfem3D', shell=True, check=True)
 
 
 if __name__ == '__main__':

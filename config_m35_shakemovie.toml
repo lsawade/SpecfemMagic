@@ -4,27 +4,29 @@ PACKAGE_DIR="/lustre/orion/geo111/scratch/lsawade/packages"
 
 [SPECFEM]
 FORWARD=true
-RECIPROCAL=true
+RECIPROCAL=false
 VERSION="8.0"
-TAG="GLAD-M35-256x256"
-LINK="git@github.com:lsawade/specfem3d_globe.git"
-BRANCH="GF"
+TAG="GLAD-M35-256x256-SHAKEMOVIE"
+LINK="git@github.com:SPECFEM/specfem3d_globe.git"
+DATA_default="DATA_M35_SHAKEMOVIE"
+BRANCH="devel"
 RECIPROCAL_EXTERNAL_STF=true
 ASDF=false
 ADIOS=true
 GPU='HIP'
-Par_file_location='' # Par_file to use for the run. If empty, will use DATA_default/Par_file
+
 
 # IF THE PAR_FILES model paramater is set to 'GLL', then the model_gll_location will
 # copy the given model to the directory and use it for the compilation.
 # If empty or model is not GLL it is ignored.
-model_gll_location='/lustre/orion/proj-shared/geo111/models2/m35.bp' # Keep empty if you
+model_gll_location='/lustre/orion/proj-shared/geo111/models2/m35.bp' # Keep empty if you∑
+#/lustre/orion/geo111/scratch/lsawade/packages/hdf5/1.12.3/install
 
 # CUDA: cuda<#> | HIP: MI<XXX>
 GPU_VERSION='MI250'
 
 # Depending on GPU, sets HIPFLAGS or CUDAFLAGS
-GPU_FLAGS='--amdgpu-target=gfx90a -fPIC -ftemplate-depth-2048 -O3 -fdenormal-fp-math=ieee -fcuda-flush-denormals-to-zero -munsafe-fp-atomics -fno-gpu-rdc'
+GPU_FLAGS='--amdgpu-target=gfx90a -fPIC -ftemplate-depth-2048 -O3 -fdenormal-fp-math=ieee -fcuda-flush-denormals-to-zero -munsafe-fp-atomics -fno-gpu-rdc -g'
 
 # Use this to Update any parameter for the forward par_file parameters
 [SPECFEM.Par_file.FORWARD]
@@ -45,7 +47,7 @@ MPICC=''
 MPICXX=''
 FC=''
 MPIFC=''
-CFLAGS=''
+CFLAGS='-g -fallow-argument-mismatch -O2 -pthread'
 CXXFLAGS=''
 FCFLAGS=''
 ADIOS_VERSION=''

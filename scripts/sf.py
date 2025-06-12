@@ -124,10 +124,14 @@ def sfrun(rtype: str = 's', mps: int | None = None):
 
         if rtype == 'm':
             N = int(ceil(nprocs/62))
-            run(f'srun -n {nprocs} -c1 --cpu-bind=cores bin/xmeshfem3D', shell=True, check=True)
+            run(f'srun -n {nprocs} -c1 --cpu-bind=cores ./bin/xmeshfem3D', shell=True, check=True)
         if rtype == 's':
             N = int(ceil(nprocs/7))
-            run(f'srun -n {nprocs} -c1 --distribution=*:block --ntasks-per-gpu=7 --cpu-bind=cores --gpu-bind=closest bin/xspecfem3D', shell=True, check=True)
+            cmd = f'srun -n {nprocs} ./bin/xspecfem3D'
+            #cmd = f'srun -n {nprocs} -c1 --distribution=*:block --ntasks-per-gpu=7 --cpu-bind=cores --gpu-bind=closest bin/xspecfem3D'
+            #cmd = f'srun -n {nprocs} --distribution=*:block ./bin/xspecfem3D'
+            print(cmd)
+            run(cmd, shell=True, check=True)
 
     if "batch" in HOSTNAME:
 

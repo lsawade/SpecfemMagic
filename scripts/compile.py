@@ -1,8 +1,21 @@
 import os
+import sys
 import toml
 import asyncio
 from asyncio.subprocess import PIPE, STDOUT
 import subprocess
+
+
+GFMAGIC_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+DATA_default = os.path.join(GFMAGIC_DIR, 'DATA_default')
+
+# Get common valus from config
+if len(sys.argv) > 1:
+    configfile = sys.argv[1]
+    cfg = toml.load(configfile)['SPECFEM']
+else:
+    configfile = os.path.join(GFMAGIC_DIR, 'config.toml')
+    cfg = toml.load(configfile)['SPECFEM']
 
 
 def sync_src(sfdir_1: str, sfdir_2: str):
@@ -47,16 +60,22 @@ async def compile():
 
     print('Starting compilations')
 
-    sf3dgf_dir = os.environ['SF3DGF']
-    sf3dgr_dir = os.environ['SF3DGR']
+    if cfg['FORWARD']:
+        sf3dgf_dir = os.environ['SF3DGF']
+    
+    if cfg['RECIPROCAL']:
+        sf3dgr_dir = os.environ['SF3DGR']
 
-    sync_src(sf3dgf_dir, sf3dgr_dir)
+    if cfg['FORWARD'] and cfg['RECIPROCAL']:
+        sync_src(sf3dgf_dir, sf3dgr_dir)
 
     cmd = 'make -j 10 all'
 
     async with asyncio.TaskGroup() as tg:
-        fw_task = tg.create_task(compile_task(sf3dgf_dir, cmd, ctype='forward'))
-        rc_task = tg.create_task(compile_task(sf3dgr_dir, cmd, ctype='reciprocal'))
+        if cfg['FORWARD']:
+            fw_task = tg.create_task(compile_task(sf3dgf_dir, cmd, ctype='forward'))
+        if cfg['RECIPROCAL']:
+            rc_task = tg.create_task(compile_task(sf3dgr_dir, cmd, ctype='reciprocal'))
 
     print("Compilation done.")
 

@@ -1,0 +1,6 @@
+# Station list for the Reciprocal database
+# Sensor information is only kept from the inventory. For most
+# stations all sensors are at the same location.
+#
+# Net.Sta,       Lat,       Lon,      Elev,       Bur, Sensor
+  IU.HRV ,   42.5064,  -71.5583,  200.0000,    0.0000, Streckeisen STS-1VBB w/E300

@@ -1,0 +1,50 @@
+[job]
+system = [ "nnodes.job", "Frontier",]
+name = "Database maker"
+nnodes = 900
+account = "GEO111"
+walltime = 70.0
+# gap = 25.0
+debug = false
+
+[root]
+task = [ "workflow", "main",]
+workflowname = "Making a database right now, yeaah!"
+db = "/lustre/orion/geo111/scratch/lsawade/DB/GLAD-M50-AZI/160"
+station_file = "stations_reykjanes.txt"
+#start_index = 168
+#end_index = 200
+creation = true
+simulation = true
+processing = true
+clear = false
+forward_test = false
+cmtsolutionfile = "DATA/CMTSOLUTION"
+forward_specfem = "/lustre/orion/geo111/scratch/lsawade/packages/sf3dgf/8.0/GLAD-M50-160x160"
+
+[root.cfg]
+specfemdir = "/lustre/orion/geo111/scratch/lsawade/packages/sf3dgr/8.0/GLAD-M50-160x160"
+forwardspecfemdir = "/lustre/orion/geo111/scratch/lsawade/packages/sf3dgf/8.0/GLAD-M50-160x160"
+par_file = "DATA/Par_file"
+target_file = "DATA/GF_LOCATIONS"
+target_latitude = 35.03
+target_longitude = 26.85
+target_depth = 24.0
+element_buffer = 1
+t0 = 0.0
+tc = 200.0
+duration_in_min = 240.0
+ndt = 4.0
+lpfilter = "butter"
+subsample = true
+force_factor = 100000000000000.0
+cmtsolutionfile = "DATA/CMTSOLUTION"
+broadcast_mesh_model = false
+simultaneous_runs = false
+overwrite = false
+forward_test = false
+forwardoutdir = "/lustre/orion/geo111/scratch/lsawade/DB/M50-AZI/160_TEST_FORWARD"
+
+[root.processparams]
+precision = "single"
+compression = "None"

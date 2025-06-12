@@ -9,6 +9,26 @@
 7. python scripts/compile.py
 8. python scripts/sf.py -- Run CLI
 
+## TODO
+
+- [ ] NEED TO UPDATE READING OF DEFAULT PAR_FILE, STATIONS, CMTSOLUTION!
+      Right now, only DATA_DEFAULT is allowed, but should allow different
+      types of setups. (Including the constants.h.in's)
+      
+
+
+
+To run the mesher:
+
+```bash
+python scripts/sf.py run --runtype 'm' $SF3DGF
+```
+
+To run the solver
+```bash
+python scripts/sf.py run --runtype 's' $SF3DGF
+```
+
 
 ## Redownload specfem
 

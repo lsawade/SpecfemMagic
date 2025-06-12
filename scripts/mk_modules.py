@@ -40,12 +40,19 @@ SF3DGR=/path/to/packagedir/sf3dgr/sf_version/<tag>
 """
 
 import os
+import sys
 import toml
 
 # Get common valus from config
-filedirectory = os.path.dirname(os.path.realpath(__file__))
-configfile = os.path.join(filedirectory, '..', 'config.toml')
-fcfg = toml.load(configfile)
+if len(sys.argv) > 1:
+    configfile = sys.argv[1]
+    fcfg = toml.load(configfile)
+else:
+    filedirectory = os.path.dirname(os.path.realpath(__file__))
+    configfile = os.path.join(filedirectory, '..', 'config.toml')
+    fcfg = toml.load(configfile)
+
+    
 modulepath = fcfg['MAIN']['MODULE_PATH']
 packagepath = fcfg['MAIN']['PACKAGE_DIR']
 

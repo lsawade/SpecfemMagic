@@ -10,10 +10,9 @@ import asyncio
 from asyncio.subprocess import PIPE, STDOUT
 
 # Get common valus from config
-# Get common valus from config
 if len(sys.argv) > 1:
     configfile = sys.argv[1]
-    fcfg = toml.load(configfile)
+    fcfg = toml.load(configfile)['SPECFEM']
 else:
     filedirectory = os.path.dirname(os.path.realpath(__file__))
     configfile = os.path.join(filedirectory, '..', 'config.toml')
@@ -28,10 +27,11 @@ tag = cfg['TAG']
 link = cfg['LINK']
 branch = cfg['BRANCH']
 
+
+
 async def download(sf_dir, link, dtype='forward'):
 
-    print(f'--> Downloading SPECFEM3D_GLOBE for {dtype} directory')
-
+    print(f'--> Downloading SPECFEM3D_GLOBE for {dtype} directory THIS TAKES A WHILE!')
 
     # Download SPECFEM if it doesnt exist
     cmd = f'git clone {link} {sf_dir}'

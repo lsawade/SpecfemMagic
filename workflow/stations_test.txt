@@ -1,0 +1,7 @@
+# Station list for the Reciprocal database
+# Sensor information is only kept from the inventory. For most
+# stations all sensors are at the same location.
+#
+# Net.Sta,       Lat,       Lon,      Elev,       Bur, Sensor
+  II.ARU ,   56.4302,   58.5625,  250.0000,    0.0000, Guralp CMG-3T Seismometer
+  II.BFO ,   48.3301,    8.3296,  638.0000,  160.0000, Streckeisen STS-1H/VBB Seismometer

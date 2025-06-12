@@ -8,6 +8,7 @@ can be done swiftly.
 """
 
 import os
+import sys
 import toml
 import utils
 
@@ -15,8 +16,12 @@ GFMAGIC_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_default = os.path.join(GFMAGIC_DIR, 'DATA_default')
 
 # Get common valus from config
-configfile = os.path.join(GFMAGIC_DIR, 'config.toml')
-cfg = toml.load(configfile)['SPECFEM']
+if len(sys.argv) > 1:
+    configfile = sys.argv[1]
+    cfg = toml.load(configfile)['SPECFEM']
+else:
+    configfile = os.path.join(GFMAGIC_DIR, 'config.toml')
+    cfg = toml.load(configfile)['SPECFEM']
 
 fwd_parfile_update = cfg['Par_file']['FORWARD']
 rec_parfile_update = cfg['Par_file']['RECIPROCAL']
@@ -82,11 +87,15 @@ def forward():
     """
 
     # Get environment variables from environment variables
+    if not cfg['FORWARD']:
+        print('Not setting up forward specfem 3d_globe.')
+        return
+
     sf_dir = os.environ['SF3DGF']
 
     # Par_file locations
-    if cfg['Par_file_location'] != '':
-        in_parfile = cfg['Par_file_location']
+    if 'DATA_default' in cfg and cfg['DATA_default'] != '':
+        in_parfile = os.path.join(cfg['DATA_default'], "Par_file")
     else:
         in_parfile = os.path.join(DATA_default, 'Par_file')
 
@@ -111,18 +120,30 @@ def forward():
     # Write Par_file
     utils.write_par_file(pardict, outparfile)
 
+    # Par_file locations
+    constantsfile = os.path.join(sf_dir, 'setup', 'constants.h.in')
+
+    # Update constants file
+    utils.update_constants(constantsfile, outfile=constantsfile, rotation='+',
+                           external_stf=False)
+
+
 
 def reciprocal():
     """
     Set specfem3d_globe for reciprocal compilation
     """
 
+    if not cfg['RECIPROCAL']:
+        print('Not setting up reciprocal specfem3d_globe.')
+        return
+
     # Get environment variables from environment variables
     sf_dir = os.environ['SF3DGR']
 
-    # Par_file locations
-    if cfg['Par_file_location'] != '':
-        in_parfile = cfg['Par_file_location']
+    # Get Par_file
+    if 'DATA_default' in cfg and cfg['DATA_default'] != '':
+        in_parfile = os.path.join(cfg['DATA_default'], "Par_file")
     else:
         in_parfile = os.path.join(DATA_default, 'Par_file')
 

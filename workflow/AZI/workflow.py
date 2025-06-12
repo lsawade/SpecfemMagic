@@ -161,10 +161,10 @@ def simulation(node: Node):
 
         print(compsimdir)
 
-        node.add_mpi('./bin/xspecfem3D', nprocs=384, gpus_per_proc=1,
+        node.add_mpi('./bin/xspecfem3D', nprocs=600, gpus_per_proc=1,
                      cwd=compsimdir, mps=None,
                      name=f'sim-{node.network}.{node.station}.{comp}',
-                     exec_args={Slurm: '-N48 --mem=0'}
+                     exec_args={Slurm: '-N75 --mem=0'}
                      )
 
 
@@ -196,10 +196,10 @@ def processing(node: Node):
     print(node.stationdir)
     print(cmd)
 
-    node.add_mpi(cmd, nprocs=284, cpus_per_proc=1, gpus_per_proc=1, mps=None,
+    node.add_mpi(cmd, nprocs=1, cpus_per_proc=1, gpus_per_proc=8, mps=None,
                  cwd=node.stationdir,
                  name=f'Processing-{node.network}-{node.station}',
-                 exec_args={Slurm: '-N36 --mem=0'},
+                 exec_args={Slurm: '-N1 --mem=0'},
                  priority=1)
 
 

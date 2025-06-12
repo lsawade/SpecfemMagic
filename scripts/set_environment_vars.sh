@@ -14,6 +14,8 @@ CONFIG_FILE=$GFMAGIC_DIR/config.toml
 # Big one-liner to get environment variables from config file's ENV section
 txt=$(python -c "import toml; envs=toml.load(\"${CONFIG_FILE}\")[\"ENV\"]; l=[f\"{k}={v}\" for k, v in envs.items()]; print('\n'.join(l))")
 
+echo $txt
+exit
 # Loop over lines
 for line in $txt;
 do
